@@ -1,0 +1,319 @@
+/* ==========================================================================
+   MemoryVault AI - Comprehensive Responsive Overrides
+   ========================================================================== */
+
+/* --------------------------------------------------
+   GLOBAL SAFETY (Avoid horizontal scroll)
+   -------------------------------------------------- */
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+img, video, audio {
+    max-width: 100%;
+    height: auto;
+}
+
+textarea, input {
+    max-width: 100%;
+}
+
+/* Base layouts */
+.container, .capture-layout, .gallery-layout, .calendar-layout, .str-layout, .ai-layout, .recap-layout, .settings-layout, .page-content {
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+
+/* --------------------------------------------------
+   TABLET (768px - 1199px)
+   -------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 1199px) {
+    /* 2. SIDEBAR - Tablet: Make the sidebar narrower */
+    .sidebar {
+        width: 200px !important;
+    }
+    .main-area {
+        margin-left: 200px !important;
+    }
+    
+    /* 5. MEMORIES - Tablet: Fewer columns */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* 3. HOME - Tablet: Stack dashboard naturally */
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 4. CAPTURE - Tablet: Hide left deco */
+    .capture-layout {
+        grid-template-columns: 1fr 320px !important;
+    }
+    .capture-left-deco {
+        display: none !important;
+    }
+
+    /* 9. AI - Tablet: Stack insights below chat */
+    .ai-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+}
+
+
+/* --------------------------------------------------
+   MOBILE (< 768px)
+   -------------------------------------------------- */
+@media (max-width: 767px) {
+    
+    /* 2. SIDEBAR - Mobile overlay */
+    .sidebar {
+        width: 260px !important;
+        position: fixed !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 9999;
+        box-shadow: none;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+    }
+    .main-area {
+        margin-left: 0 !important;
+        width: 100%;
+    }
+    .hamburger-btn {
+        display: flex !important;
+    }
+    /* Hide some quotes to save space on mobile header */
+    .greeting-quote { display: none !important; }
+
+    /* 3. HOME - Mobile */
+    .stats-row {
+        grid-template-columns: 1fr !important;
+    }
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .recent-memories-grid {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+    }
+    .plant-widget {
+        max-width: 100%;
+    }
+    .plant-illustration img {
+        max-width: 150px;
+    }
+
+    /* 4. CAPTURE - Mobile */
+    .capture-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .capture-left-deco {
+        display: none !important;
+    }
+    .capture-right {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+    .media-preview-box, .audio-player-box {
+        width: 100% !important;
+    }
+
+    /* 5. MEMORIES - Mobile */
+    .gallery-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .gallery-list .memory-card {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    .gallery-list .m-thumb {
+        width: 100% !important;
+        height: 200px !important;
+    }
+    .m-header {
+        flex-wrap: wrap;
+    }
+
+    /* 6. TIMELINE - Mobile */
+    .tl-card {
+        flex-direction: column !important;
+    }
+    .tl-media {
+        width: 100% !important;
+        height: 200px !important;
+    }
+    .timeline-items {
+        padding-left: 15px !important;
+    }
+    .timeline-items::before {
+        left: 0 !important;
+    }
+
+    /* 7. STREAKS - Mobile */
+    .str-grid-3, .str-grid-2, .str-grid-half {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* 8. CALENDAR - Mobile */
+    .calendar-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .sd-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 9. AI COMPANION - Mobile */
+    .ai-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .ai-insights {
+        order: 2;
+    }
+    .ai-chat-area {
+        order: 1;
+        min-height: 400px;
+    }
+
+    /* 10. MONTHLY RECAP - Mobile */
+    .recap-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .recap-hero {
+        padding: var(--space-lg) !important;
+    }
+    .recap-hero h1 {
+        font-size: 2rem !important;
+    }
+
+    /* 11. SETTINGS - Mobile */
+    .settings-grid, .settings-row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: var(--space-md);
+    }
+    .settings-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* --------------------------------------------------
+   MODALS (12) - All Viewports
+   -------------------------------------------------- */
+@media (max-width: 767px) {
+    .modal-content, .detail-modal-content, .sd-modal-content, .music-modal-content, .settings-confirm-modal {
+        width: 100% !important;
+        max-width: 92vw !important;
+        margin: 20px auto !important;
+        max-height: 85vh !important;
+        overflow-y: auto !important;
+        box-sizing: border-box !important;
+    }
+    /* Ensure modal containers fit screen */
+    .modal-overlay, .detail-modal-overlay, .sidebar-overlay {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .music-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* --------------------------------------------------
+   STREAKS PAGE UI POLISH
+   -------------------------------------------------- */
+
+/* 1. Activity Calendar Compactness */
+.str-cal-day {
+    aspect-ratio: auto !important;
+    height: 38px !important;
+    gap: 2px !important;
+}
+.str-cal-grid {
+    gap: 4px !important;
+}
+.str-cal-controls {
+    margin-bottom: 8px !important;
+}
+.str-cal-header {
+    padding-bottom: 4px !important;
+}
+.str-cal-day.today .str-cal-num {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+/* 2. Milestones Layout */
+.str-ms-track {
+    align-items: flex-end !important;
+    padding: 10px 0 10px !important;
+    overflow-x: auto !important;
+    white-space: nowrap;
+    gap: 16px;
+    padding-bottom: 15px !important;
+    /* Hide scrollbar for clean look */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.str-ms-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ensure track line aligns with the ground under the plant icons */
+.str-ms-track::before {
+    bottom: 78px !important;
+}
+
+/* 3. Plant Visibility & Progressive Sizing */
+.ms-node {
+    width: 85px !important;
+    flex-shrink: 0 !important; /* Prevents squishing on mobile */
+    justify-content: flex-end;
+}
+
+/* Standardize the icon container to align bottoms */
+.ms-icon-wrap {
+    height: 90px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    margin-bottom: 12px !important;
+}
+
+.ms-icon-wrap svg {
+    width: auto !important;
+    max-width: 100% !important;
+}
+
+/* Progressive Sizing based on the 6 standard milestones */
+.ms-node:nth-child(1) .ms-icon-wrap svg { height: 45px !important; } /* Seed */
+.ms-node:nth-child(2) .ms-icon-wrap svg { height: 55px !important; } /* Sprout */
+.ms-node:nth-child(3) .ms-icon-wrap svg { height: 65px !important; } /* Young Plant */
+.ms-node:nth-child(4) .ms-icon-wrap svg { height: 72px !important; } /* Small Tree */
+.ms-node:nth-child(5) .ms-icon-wrap svg { height: 80px !important; } /* Growing Tree */
+.ms-node:nth-child(6) .ms-icon-wrap svg { height: 90px !important; } /* Mature Tree */
+
+.ms-node.current {
+    margin-top: 0 !important;
+    padding: 8px 4px !important;
+}
+.ms-node.current .ms-icon-wrap {
+    transform: scale(1.1) translateY(-4px) !important;
+}

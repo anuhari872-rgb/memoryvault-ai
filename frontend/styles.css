@@ -1,0 +1,971 @@
+/* ==========================================================================
+   MemoryVault AI — Complete Design System & Login Page Styles
+   ========================================================================== */
+
+/* ── CSS Custom Properties (Design Tokens) ──────────────────────────────── */
+
+:root {
+    /* Background */
+    --color-bg:             #F6F1E7;
+    /* Cards */
+    --color-card:           #FFFDF8;
+    /* Forest / Primary */
+    --color-forest:         #123B32;
+    /* Secondary Green */
+    --color-green:          #1C5A48;
+    /* Sage */
+    --color-sage:           #9BBF8F;
+    /* Light Sage */
+    --color-sage-light:     #DDEBD8;
+    /* Warm Beige */
+    --color-beige:          #EDE2CF;
+    /* Muted Gold */
+    --color-gold:           #D8A94E;
+    /* Soft Pink */
+    --color-pink:           #E9A6A6;
+
+    /* Text */
+    --color-text-primary:   #2C2C2C;
+    --color-text-secondary: #6B6B6B;
+    --color-text-muted:     #9A9A9A;
+    --color-error:          #C0392B;
+    --color-error-bg:       #FDEDEC;
+    --color-success:        #1C5A48;
+    --color-success-bg:     #DDEBD8;
+
+    /* Fonts */
+    --font-heading: 'Georgia', 'Times New Roman', serif;
+    --font-body:    'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-quote:   'Segoe Script', 'Comic Sans MS', cursive;
+
+    /* Spacing */
+    --space-xs:  0.25rem;
+    --space-sm:  0.5rem;
+    --space-md:  1rem;
+    --space-lg:  1.5rem;
+    --space-xl:  2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 50%;
+
+    /* Shadows */
+    --shadow-sm:  0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.10);
+    --shadow-card: 0 2px 20px rgba(18,59,50,0.07);
+
+    /* Transitions */
+    --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-fast:   150ms;
+    --dur-normal: 250ms;
+    --dur-slow:   400ms;
+}
+
+
+/* ── Reset & Base ───────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    color: var(--color-forest);
+    line-height: 1.3;
+}
+
+a {
+    color: var(--color-green);
+    text-decoration: none;
+    transition: color var(--dur-fast) ease;
+}
+a:hover { color: var(--color-forest); }
+
+img { max-width: 100%; display: block; }
+
+button {
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+/* Utility */
+.hidden { display: none !important; }
+
+.visually-hidden {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+
+/* ==========================================================================
+   AUTH PAGE LAYOUT
+   ========================================================================== */
+
+.auth-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ── Hero (left side) ───────────────────────────────────────────────────── */
+
+.auth-hero {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(160deg, #f0ece2 0%, #e8eed6 40%, #ddebd8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) var(--space-2xl);
+    overflow: hidden;
+}
+
+.auth-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 440px;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+}
+
+.logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.65rem;
+    color: var(--color-forest);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+}
+.logo-text strong {
+    font-weight: 700;
+}
+
+.logo-tagline {
+    font-size: 0.85rem;
+    color: var(--color-green);
+    margin-bottom: var(--space-2xl);
+    opacity: 0.8;
+}
+
+/* Heading */
+.hero-heading {
+    font-size: 2.6rem;
+    color: var(--color-forest);
+    margin-bottom: var(--space-lg);
+    line-height: 1.2;
+}
+.hero-heading em {
+    font-style: italic;
+    color: var(--color-green);
+}
+
+.hero-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    line-height: 1.7;
+}
+
+/* Feature list */
+.feature-list {
+    list-style: none;
+    margin-bottom: var(--space-2xl);
+}
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.92rem;
+    color: var(--color-text-primary);
+    padding: var(--space-sm) 0;
+}
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-card);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Hero plant illustration */
+.hero-plant-wrapper {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    position: relative;
+}
+.hero-plant {
+    display: inline-block;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.06));
+}
+.plant-label {
+    display: block;
+    font-family: var(--font-quote);
+    font-size: 0.8rem;
+    color: var(--color-green);
+    margin-top: -4px;
+    opacity: 0.6;
+}
+
+/* Decorative quote */
+.decorative-quote {
+    font-family: var(--font-quote);
+    font-size: 1rem;
+    color: var(--color-forest);
+    background: var(--color-card);
+    display: inline-block;
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    opacity: 0.85;
+    line-height: 1.5;
+}
+.quote-heart { color: var(--color-pink); }
+
+/* Decorative leaves (positioned via CSS) */
+.deco-leaf {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--color-sage);
+    border-radius: 0 50% 50% 50%;
+    opacity: 0.12;
+}
+.deco-leaf-1 { top: 5%; right: 8%; transform: rotate(-30deg); width: 50px; height: 50px; }
+.deco-leaf-2 { top: 15%; left: -2%; transform: rotate(60deg); width: 80px; height: 80px; opacity: 0.08; }
+.deco-leaf-3 { bottom: 8%; right: 15%; transform: rotate(140deg); width: 40px; height: 40px; }
+
+
+/* ── Form section (right side) ──────────────────────────────────────────── */
+
+.auth-form-section {
+    flex: 0 0 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl);
+    background: var(--color-bg);
+}
+
+.auth-form-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+
+/* ── Auth Card ──────────────────────────────────────────────────────────── */
+
+.auth-card {
+    background: var(--color-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-2xl);
+    animation: cardEnter var(--dur-slow) var(--ease-out) both;
+}
+
+/* Card logo */
+.card-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: var(--space-lg);
+    justify-content: center;
+}
+.card-logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-forest);
+    font-weight: 400;
+}
+.card-logo-text strong { font-weight: 700; }
+
+/* Auth titles */
+.auth-title {
+    font-size: 1.55rem;
+    text-align: center;
+    margin-bottom: var(--space-xs);
+}
+.name-highlight {
+    color: var(--color-green);
+    font-weight: 700;
+}
+.auth-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-xl);
+}
+
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+.back-link:hover { color: var(--color-forest); background: var(--color-sage-light); }
+.back-link:focus-visible { outline: 2px solid var(--color-sage); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   FORM ELEMENTS
+   ========================================================================== */
+
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+}
+
+/* Input wrapper */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #D6D0C4;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    transition: border-color var(--dur-normal) ease, box-shadow var(--dur-normal) ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--color-sage);
+    box-shadow: 0 0 0 3px rgba(155, 191, 143, 0.18);
+}
+
+/* Error state */
+.input-wrapper.has-error {
+    border-color: var(--color-error);
+}
+.input-wrapper.has-error:focus-within {
+    box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    display: flex;
+    transition: color var(--dur-fast) ease;
+}
+.input-wrapper:focus-within .input-icon {
+    color: var(--color-green);
+}
+
+/* Inputs */
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--color-text-primary);
+    background: transparent;
+    border-radius: var(--radius-sm);
+}
+.input-wrapper input::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Password toggle */
+.toggle-password-btn {
+    position: absolute;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+.toggle-password-btn:hover {
+    color: var(--color-forest);
+    background: var(--color-sage-light);
+}
+.toggle-password-btn:focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 2px;
+}
+
+/* Field error message */
+.field-error {
+    font-size: 0.8rem;
+    color: var(--color-error);
+    min-height: 1.2em;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity var(--dur-normal) ease, transform var(--dur-normal) ease;
+}
+.field-error.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.field-error::before {
+    content: '';
+    display: none;
+}
+.field-error.visible::before {
+    content: '⚠';
+    display: inline;
+    font-size: 0.75rem;
+}
+
+
+/* ── Form row (remember + forgot) ──────────────────────────────────────── */
+
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+}
+
+/* Checkbox */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--color-text-primary);
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid #D6D0C4;
+    border-radius: 4px;
+    background: #fff;
+    flex-shrink: 0;
+    transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.checkbox-visual .check-icon {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-spring);
+}
+
+/* Checked state */
+.checkbox-label input:checked + .checkbox-visual {
+    background: var(--color-green);
+    border-color: var(--color-green);
+    transform: scale(1.05);
+}
+.checkbox-label input:checked + .checkbox-visual .check-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Focus on checkbox */
+.checkbox-label input:focus-visible + .checkbox-visual {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 2px;
+}
+
+/* Link button */
+.link-btn {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: color var(--dur-fast) ease;
+}
+.link-btn:hover { color: var(--color-forest); }
+.link-btn:focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 2px;
+}
+.link-btn-strong {
+    color: var(--color-green);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.link-btn-strong:hover { color: var(--color-forest); }
+
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: background var(--dur-normal) ease, color var(--dur-normal) ease,
+                box-shadow var(--dur-normal) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 2px;
+}
+
+/* Primary (forest green) */
+.btn-primary {
+    background: var(--color-forest);
+    color: #fff;
+}
+.btn-primary:hover {
+    background: var(--color-green);
+    box-shadow: 0 4px 14px rgba(18,59,50,0.25);
+}
+
+/* Outline */
+.btn-outline {
+    background: transparent;
+    color: var(--color-forest);
+    border: 1.5px solid #D6D0C4;
+}
+.btn-outline:hover {
+    border-color: var(--color-forest);
+    background: rgba(18,59,50,0.03);
+}
+
+/* Warm (gold) */
+.btn-warm {
+    background: var(--color-pink);
+    color: #fff;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--dur-normal) ease, box-shadow var(--dur-normal) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.btn-warm:hover {
+    background: #d9908f;
+    box-shadow: 0 4px 14px rgba(233,166,166,0.35);
+}
+.btn-warm:active { transform: scale(0.98); }
+.btn-warm:focus-visible {
+    outline: 2px solid var(--color-pink);
+    outline-offset: 2px;
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+}
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #E0DAD0;
+}
+
+/* Auth footer */
+.auth-footer {
+    text-align: center;
+    margin-top: var(--space-lg);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+
+/* ==========================================================================
+   FORGOT PASSWORD MODAL
+   ========================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 59, 50, 0.25);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-lg);
+    animation: overlayEnter var(--dur-normal) ease both;
+}
+
+.modal-card {
+    background: var(--color-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-2xl);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    animation: cardEnter var(--dur-slow) var(--ease-out) both;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--color-text-muted);
+    transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+.modal-close-btn:hover { color: var(--color-forest); background: var(--color-sage-light); }
+.modal-close-btn:focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 2px;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-sm);
+}
+
+.modal-desc {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    line-height: 1.6;
+}
+
+/* Forgot success message */
+.forgot-success-msg {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--color-success-bg);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-md);
+    animation: fadeSlideUp var(--dur-slow) var(--ease-out) both;
+}
+.forgot-success-msg p {
+    font-size: 0.88rem;
+    color: var(--color-success);
+    font-weight: 500;
+}
+.forgot-success-msg .success-check-sm {
+    flex-shrink: 0;
+}
+
+
+/* ==========================================================================
+   SUCCESS SCREEN
+   ========================================================================== */
+
+.success-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn var(--dur-slow) ease both;
+}
+
+.success-content {
+    text-align: center;
+    animation: fadeSlideUp 600ms var(--ease-out) 200ms both;
+}
+
+/* Animated check icon */
+.success-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-full);
+    background: var(--color-sage-light);
+    margin-bottom: var(--space-xl);
+    animation: iconPop 500ms var(--ease-spring) 400ms both;
+}
+
+.success-circle {
+    stroke-dasharray: 190;
+    stroke-dashoffset: 190;
+    animation: drawCircle 600ms ease 500ms forwards;
+}
+.success-tick {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: drawTick 400ms ease 900ms forwards;
+}
+
+.success-heading {
+    font-size: 1.8rem;
+    margin-bottom: var(--space-sm);
+    color: var(--color-forest);
+}
+.success-text {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2xl);
+    font-size: 1rem;
+}
+
+.success-screen .btn {
+    max-width: 240px;
+    margin: 0 auto;
+}
+
+
+
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes overlayEnter {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes iconPop {
+    from {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes drawCircle {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawTick {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Card switch animation helper */
+.auth-card.card-exit {
+    animation: cardExit var(--dur-normal) var(--ease-out) forwards;
+}
+
+@keyframes cardExit {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+    }
+}
+
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* Tablet */
+@media (max-width: 960px) {
+    .auth-page {
+        flex-direction: column;
+    }
+
+    .auth-hero {
+        padding: var(--space-2xl) var(--space-xl);
+    }
+
+    .auth-hero-inner {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-heading {
+        font-size: 2rem;
+    }
+
+    .hero-desc br { display: none; }
+
+    .feature-list {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-plant-wrapper { display: none; }
+    .decorative-quote { display: none; }
+
+    .auth-form-section {
+        flex: none;
+        padding: var(--space-xl);
+    }
+
+    .auth-form-container {
+        max-width: 440px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .auth-hero {
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .hero-heading {
+        font-size: 1.6rem;
+    }
+
+    .hero-desc {
+        font-size: 0.88rem;
+    }
+
+    .feature-list { display: none; }
+    .deco-leaf { display: none; }
+
+    .auth-form-section {
+        padding: var(--space-md);
+    }
+
+    .auth-card {
+        padding: var(--space-xl) var(--space-lg);
+        border-radius: var(--radius-md);
+    }
+
+    .auth-title {
+        font-size: 1.3rem;
+    }
+
+    .modal-card {
+        padding: var(--space-xl);
+        margin: var(--space-md);
+    }
+
+    .success-heading {
+        font-size: 1.4rem;
+    }
+
+    .success-icon-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+
+    .dash-greeting {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

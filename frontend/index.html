@@ -1,0 +1,1930 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryVault AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="capture.css">
+    <link rel="stylesheet" href="gallery.css">
+    <link rel="stylesheet" href="calendar.css">
+    <link rel="stylesheet" href="streaks.css">
+    <link rel="stylesheet" href="ai.css">
+    <link rel="stylesheet" href="recap.css">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="timeline.css">
+    <!-- Early Session Check to completely eliminate login flash -->
+    <script>
+        (function() {
+            try {
+                let sessionStr = localStorage.getItem('memoryvault_session');
+                if (!sessionStr) sessionStr = sessionStorage.getItem('memoryvault_session');
+                if (sessionStr) {
+                    const session = JSON.parse(sessionStr);
+                    if (session && session.authenticated === true) {
+                        document.documentElement.classList.add('is-authenticated');
+                    }
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <style>
+        /* If authenticated, hide login immediately before paint */
+        html.is-authenticated #login-page { display: none !important; }
+        html.is-authenticated #dashboard-page { display: flex !important; }
+    </style>
+    <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+
+<div id="app">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LOGIN PAGE — split hero left / form right
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="login-page" class="auth-page">
+
+        <!-- ─── Hero (left) ─── -->
+        <section class="auth-hero" aria-hidden="true">
+            <div class="auth-hero-inner">
+
+                <!-- Logo -->
+                <div class="logo">
+                    <svg class="logo-leaf" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
+                        <path d="M20 4C14 6 6 14 6 24c0 4 2 7 4 8 2-6 6-11 11-15 4-3 9-5 13-7C32 6 28 4 20 4z" fill="#9BBF8F"/>
+                        <path d="M10 32C16 22 24 14 34 10" stroke="#1C5A48" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M14 26c2-4 5-8 8-10" stroke="#1C5A48" stroke-width="0.8" fill="none" opacity="0.5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="logo-text">Memory<strong>Vault</strong></span>
+                </div>
+                <p class="logo-tagline">Your memories grow with you.</p>
+
+                <!-- Tagline -->
+                <h1 class="hero-heading">
+                    Capture today.<br>
+                    Keep it <em>forever.</em>
+                </h1>
+
+                <p class="hero-desc">
+                    A personal space to store your moments,<br>
+                    thoughts, and feelings for a lifetime.
+                </p>
+
+                <!-- Feature bullets -->
+                <ul class="feature-list">
+                    <li>
+                        <span class="feature-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1C5A48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        </span>
+                        Save your moments
+                    </li>
+                    <li>
+                        <span class="feature-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#E9A6A6" stroke="#E9A6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </span>
+                        Relive your emotions
+                    </li>
+                    <li>
+                        <span class="feature-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1C5A48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V12"/><path d="M12 12C9 12 6 9 6 6c3 0 6 3 6 6z"/><path d="M12 12c3 0 6-3 6-6-3 0-6 3-6 6z"/><path d="M7 20h10"/></svg>
+                        </span>
+                        Watch your memories grow
+                    </li>
+                </ul>
+
+                <!-- Decorative plant illustration -->
+                <div class="hero-plant-wrapper">
+                    <svg class="hero-plant" viewBox="0 0 200 270" width="180" aria-hidden="true">
+                        <!-- Pot rim -->
+                        <rect x="60" y="172" width="80" height="12" rx="4" fill="#D8A94E"/>
+                        <!-- Pot body -->
+                        <path d="M64 184 L74 238 Q78 246 100 246 Q122 246 126 238 L136 184 Z" fill="#C49A3C"/>
+                        <path d="M70 184 L78 232 Q80 238 92 238 L92 184 Z" fill="#D8A94E" opacity="0.3"/>
+                        <!-- Soil -->
+                        <ellipse cx="100" cy="179" rx="34" ry="7" fill="#8B7355"/>
+                        <!-- Main stem -->
+                        <path d="M100 172 C98 148 102 128 98 96" stroke="#1C5A48" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <!-- Branches -->
+                        <path d="M100 152 C90 142 78 136 66 132" stroke="#1C5A48" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M99 132 C110 122 120 118 132 116" stroke="#1C5A48" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M99 112 C90 106 80 102 72 100" stroke="#1C5A48" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <!-- Leaves -->
+                        <ellipse cx="60" cy="126" rx="20" ry="10" transform="rotate(-35 60 126)" fill="#9BBF8F"/>
+                        <ellipse cx="136" cy="112" rx="18" ry="8" transform="rotate(28 136 112)" fill="#DDEBD8"/>
+                        <ellipse cx="66" cy="96" rx="18" ry="8" transform="rotate(-22 66 96)" fill="#DDEBD8"/>
+                        <ellipse cx="92" cy="82" rx="20" ry="9" transform="rotate(-8 92 82)" fill="#9BBF8F"/>
+                        <ellipse cx="108" cy="68" rx="16" ry="7" transform="rotate(12 108 68)" fill="#9BBF8F"/>
+                        <ellipse cx="128" cy="148" rx="14" ry="6" transform="rotate(38 128 148)" fill="#DDEBD8"/>
+                        <!-- Heart accent -->
+                        <path d="M115 150 C117 146 121 146 121 150 C121 154 115 160 115 160 C115 160 109 154 109 150 C109 146 113 146 115 150Z" fill="#E9A6A6" opacity="0.75"/>
+                    </svg>
+                    <span class="plant-label">Good Memories</span>
+                </div>
+
+                <!-- Decorative quote -->
+                <p class="decorative-quote">
+                    Little moments,<br>Big memories. <span class="quote-heart">♥</span>
+                </p>
+
+            </div>
+
+            <!-- Decorative vine leaves (CSS positioned) -->
+            <div class="deco-leaf deco-leaf-1" aria-hidden="true"></div>
+            <div class="deco-leaf deco-leaf-2" aria-hidden="true"></div>
+            <div class="deco-leaf deco-leaf-3" aria-hidden="true"></div>
+        </section>
+
+        <!-- ─── Form section (right) ─── -->
+        <section class="auth-form-section" aria-label="Authentication">
+            <div class="auth-form-container">
+
+                <!-- ═══ Login Card ═══ -->
+                <div id="login-card" class="auth-card">
+                    <!-- Card logo -->
+                    <div class="card-logo">
+                        <svg viewBox="0 0 40 40" width="28" height="28" aria-hidden="true">
+                            <path d="M20 4C14 6 6 14 6 24c0 4 2 7 4 8 2-6 6-11 11-15 4-3 9-5 13-7C32 6 28 4 20 4z" fill="#9BBF8F"/>
+                            <path d="M10 32C16 22 24 14 34 10" stroke="#1C5A48" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </svg>
+                        <span class="card-logo-text">Memory<strong>Vault</strong></span>
+                    </div>
+
+                    <h2 class="auth-title">Welcome Back, <span class="name-highlight">Anu</span></h2>
+                    <p class="auth-subtitle">Continue growing your memories.</p>
+
+                    <form id="login-form" action="#" novalidate>
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+                                <input type="email" id="login-email" name="email" placeholder="Enter your email" autocomplete="username" required aria-describedby="login-email-error">
+                            </div>
+                            <p class="field-error" id="login-email-error" role="alert" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <input type="password" id="login-password" name="password" placeholder="Enter your password" autocomplete="current-password" required minlength="6" aria-describedby="login-password-error">
+                                <button type="button" class="toggle-password-btn" data-target="login-password" aria-label="Show password">
+                                    <svg class="icon-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    <svg class="icon-eye-off hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                </button>
+                            </div>
+                            <p class="field-error" id="login-password-error" role="alert" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Remember me / Forgot password row -->
+                        <div class="form-row">
+                            <label class="checkbox-label" for="remember-me">
+                                <input type="checkbox" id="remember-me" name="remember" checked>
+                                <span class="checkbox-visual" aria-hidden="true">
+                                    <svg class="check-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.5,6 5,8.5 9.5,3.5"/></svg>
+                                </span>
+                                <span class="checkbox-text">Remember me</span>
+                            </label>
+                            <button type="button" class="link-btn" id="forgot-btn">Forgot password?</button>
+                        </div>
+
+                        <!-- Sign In -->
+                        <button type="submit" class="btn btn-primary">
+                            <span>Sign In</span>
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="divider" aria-hidden="true"><span>OR</span></div>
+
+                        <!-- Create Account button -->
+                        <button type="button" class="btn btn-outline" id="goto-register-btn">Create Account</button>
+                    </form>
+
+                    <p class="auth-footer">
+                        Don't have an account?
+                        <button type="button" class="link-btn link-btn-strong" id="goto-register-link">Create Account</button>
+                    </p>
+                </div>
+
+                <!-- ═══ Register Card ═══ -->
+                <div id="register-card" class="auth-card hidden">
+                    <button type="button" class="back-link" id="back-to-login">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <span>Back</span>
+                    </button>
+
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="auth-subtitle">Start planting your memories today.</p>
+
+                    <form id="register-form" novalidate>
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <input type="text" id="reg-name" name="name" placeholder="Enter your full name" autocomplete="name" required aria-describedby="reg-name-error">
+                            </div>
+                            <p class="field-error" id="reg-name-error" role="alert" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="reg-email">Email Address</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+                                <input type="email" id="reg-email" name="email" placeholder="Enter your email" autocomplete="email" required aria-describedby="reg-email-error">
+                            </div>
+                            <p class="field-error" id="reg-email-error" role="alert" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="reg-password">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <input type="password" id="reg-password" name="password" placeholder="Create a password" autocomplete="new-password" required minlength="6" aria-describedby="reg-password-error">
+                                <button type="button" class="toggle-password-btn" data-target="reg-password" aria-label="Show password">
+                                    <svg class="icon-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    <svg class="icon-eye-off hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                </button>
+                            </div>
+                            <p class="field-error" id="reg-password-error" role="alert" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group">
+                            <label for="reg-confirm">Confirm Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <input type="password" id="reg-confirm" name="confirm" placeholder="Confirm your password" autocomplete="new-password" required minlength="6" aria-describedby="reg-confirm-error">
+                                <button type="button" class="toggle-password-btn" data-target="reg-confirm" aria-label="Show password">
+                                    <svg class="icon-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    <svg class="icon-eye-off hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                </button>
+                            </div>
+                            <p class="field-error" id="reg-confirm-error" role="alert" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Create Account -->
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </form>
+
+                    <p class="auth-footer">
+                        Already have an account?
+                        <button type="button" class="link-btn link-btn-strong" id="goto-login-link">Sign In</button>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FORGOT PASSWORD MODAL
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="forgot-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="forgot-title">
+        <div class="modal-card">
+            <button type="button" class="modal-close-btn" id="forgot-close-btn" aria-label="Close dialog">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <h3 id="forgot-title" class="modal-title">Forgot Password</h3>
+            <p class="modal-desc">Enter your email address and we'll send you password reset instructions.</p>
+
+            <form id="forgot-form" novalidate>
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <input type="email" id="forgot-email" name="email" placeholder="Enter your email" required aria-describedby="forgot-email-error">
+                    </div>
+                    <p class="field-error" id="forgot-email-error" role="alert" aria-live="polite"></p>
+                </div>
+                <button type="submit" class="btn btn-warm">Send Instructions</button>
+            </form>
+
+            <div id="forgot-success" class="forgot-success-msg hidden" role="status" aria-live="polite">
+                <svg class="success-check-sm" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#1C5A48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <p>Password reset instructions would be sent here.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SUCCESS SCREEN
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="success-screen" class="success-screen hidden" aria-label="Login successful">
+        <div class="success-content">
+            <div class="success-icon-wrapper">
+                <svg class="success-check-lg" viewBox="0 0 64 64" width="80" height="80" aria-hidden="true">
+                    <circle cx="32" cy="32" r="30" fill="none" stroke="#1C5A48" stroke-width="2.5" class="success-circle"/>
+                    <polyline points="20,33 28,41 44,25" fill="none" stroke="#1C5A48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="success-tick"/>
+                </svg>
+            </div>
+            <h2 class="success-heading">Welcome to MemoryVault 🌱</h2>
+            <p class="success-text">Let's grow more memories together.</p>
+            <button type="button" class="btn btn-primary" id="continue-btn">Continue</button>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         MAIN APPLICATION (shown after login)
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="dashboard-page" class="app-shell hidden">
+
+        <!-- Mobile sidebar overlay -->
+        <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+        <!-- ─── Sidebar ─── -->
+        <aside class="sidebar" aria-label="Main navigation">
+            <!-- Brand -->
+            <div class="sidebar-brand">
+                <div class="brand-row">
+                    <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
+                        <path d="M20 4C14 6 6 14 6 24c0 4 2 7 4 8 2-6 6-11 11-15 4-3 9-5 13-7C32 6 28 4 20 4z" fill="#9BBF8F"/>
+                        <path d="M10 32C16 22 24 14 34 10" stroke="#1C5A48" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <span class="brand-text">Memory<strong>Vault</strong></span>
+                </div>
+                <p class="brand-tagline">Your memories grow with you.</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="home">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                    Home
+                </a>
+                <a href="#" class="nav-item" data-page="capture">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+                    Capture
+                </a>
+                <a href="#" class="nav-item" data-page="timeline">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                    Timeline
+                </a>
+                <a href="#" class="nav-item" data-page="memories">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+                    Memories
+                </a>
+                <a href="#" class="nav-item" data-page="favorites">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+                    Favorites
+                </a>
+                <a href="#" class="nav-item" data-page="calendar">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    Calendar
+                </a>
+                <a href="#" class="nav-item" data-page="streaks">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                    Streaks
+                </a>
+                <a href="#" class="nav-item" data-page="ai companion">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    AI Companion
+                </a>
+                <a href="#" class="nav-item" data-page="monthly recap">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+                    Monthly Recap
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+                    Settings
+                </a>
+                <a href="#" class="nav-item" id="btn-logout" style="margin-top:auto; color:var(--color-error)">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></span>
+                    Logout
+                </a>
+            </nav>
+            <!-- Footer -->
+            <div class="sidebar-footer">
+                <div class="sidebar-deco-leaves" aria-hidden="true">
+                    <svg viewBox="0 0 120 40" width="120" height="40">
+                        <path d="M20 35C14 30 8 20 10 12c4 1 8 5 10 10 2-5 6-9 10-10 2 8-4 18-10 23z" fill="#9BBF8F" opacity="0.3"/>
+                        <path d="M60 30C56 26 52 18 54 12c3 1 6 4 6 8 0-4 3-7 6-8 2 6-2 14-6 18z" fill="#9BBF8F" opacity="0.2"/>
+                        <path d="M100 35C94 30 88 20 90 12c4 1 8 5 10 10 2-5 6-9 10-10 2 8-4 18-10 23z" fill="#9BBF8F" opacity="0.3"/>
+                    </svg>
+                </div>
+                <p class="sidebar-quote">Little moments,<br>Big memories <span class="quote-heart">♥</span></p>
+            </div>
+        </aside>
+
+        <!-- ─── Main Content Area ─── -->
+        <div class="main-area">
+
+            <!-- Top Header -->
+            <header class="top-header">
+                <button type="button" class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="Search your memories..." aria-label="Search memories">
+                </div>
+
+                <div class="header-right">
+                    <button type="button" class="notif-btn" aria-label="Notifications">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="notif-dot" aria-hidden="true"></span>
+                    </button>
+                    <div class="header-user">
+                        <span class="header-avatar">A</span>
+                        <span class="header-user-text">Hi, Anu</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ═══ HOME PAGE ═══ -->
+            <main id="page-home" class="page-content">
+
+                <!-- Greeting -->
+                <section class="greeting-section">
+                    <div class="greeting-text">
+                        <p id="greeting-time" class="greeting-time">Good Morning,</p>
+                        <h1 class="greeting-name">Anu! 🌱</h1>
+                        <p class="greeting-subtitle">Another day to plant beautiful memories.</p>
+                    </div>
+                    <div class="greeting-quote">
+                        <p>A more mindful you,<br>a brighter tomorrow. <span class="quote-heart">♥</span></p>
+                    </div>
+                </section>
+
+                <!-- Statistics -->
+                <section class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-health">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V12"/><path d="M12 12C9 12 6 9 6 6c3 0 6 3 6 6z"/><path d="M12 12c3 0 6-3 6-6-3 0-6 3-6 6z"/><path d="M7 20h10"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Plant Health</p>
+                            <p class="stat-value" id="home-plant-health">88 <span>/ 100</span></p>
+                            <div class="stat-bar"><div class="stat-bar-fill fill-green" id="home-plant-health-bar" style="width:88%"></div></div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-streak">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Day Streak</p>
+                            <p class="stat-value" id="home-day-streak">7 <span class="stat-unit">Days</span></p>
+                            <div class="stat-bar"><div class="stat-bar-fill fill-gold" id="home-day-streak-bar" style="width:70%"></div></div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-fav">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Favorite Memories</p>
+                            <p class="stat-value" id="home-fav-count">0</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Dashboard Grid -->
+                <section class="dashboard-grid">
+
+                    <!-- ── Your Plant Card ── -->
+                    <div class="home-card plant-card">
+                        <div class="home-card-header">
+                            <h3 class="home-card-title"><span class="title-emoji">🌱</span> Your Plant</h3>
+                        </div>
+                        <div class="plant-card-body">
+                            <div class="plant-info">
+                                <span class="plant-stage" id="home-plant-stage">?? Young Plant</span>
+                                <p class="plant-progress-text" id="home-plant-progress-text">23 days to go<br>for Small Tree</p>
+                                <div class="plant-progress-bar">
+                                    <div class="plant-progress-fill" id="home-plant-progress-fill" style="width:88%"></div>
+                                </div>
+                                <p class="plant-progress-value" id="home-plant-progress-value">88 / 100</p>
+                                <p class="plant-message">🌱 Consistent memories help you grow!</p>
+                            </div>
+                            <div class="plant-visual" aria-hidden="true">
+                                <!-- Young Plant SVG — medium pot, 6 leaves, heart accent -->
+                                <svg viewBox="0 0 140 190" width="120">
+                                    <!-- Pot rim -->
+                                    <rect x="36" y="126" width="68" height="10" rx="3" fill="#D8A94E"/>
+                                    <!-- Pot body -->
+                                    <path d="M40 136 L48 172 Q52 178 70 178 Q88 178 92 172 L100 136Z" fill="#C49A3C"/>
+                                    <path d="M44 136 L50 168 Q52 172 62 172 L62 136Z" fill="#D8A94E" opacity="0.3"/>
+                                    <!-- Soil -->
+                                    <ellipse cx="70" cy="131" rx="30" ry="6" fill="#8B7355"/>
+                                    <!-- Main stem -->
+                                    <path d="M70 126 C68 108 72 92 68 68" stroke="#1C5A48" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                    <!-- Left branch -->
+                                    <path d="M70 110 C62 102 54 98 46 96" stroke="#1C5A48" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                                    <!-- Right branch -->
+                                    <path d="M69 94 C78 86 86 83 96 82" stroke="#1C5A48" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                                    <!-- Small left branch -->
+                                    <path d="M69 78 C62 74 56 72 50 70" stroke="#1C5A48" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                                    <!-- Leaves -->
+                                    <ellipse cx="42" cy="92" rx="16" ry="8" transform="rotate(-32 42 92)" fill="#9BBF8F"/>
+                                    <ellipse cx="100" cy="78" rx="14" ry="7" transform="rotate(28 100 78)" fill="#DDEBD8"/>
+                                    <ellipse cx="46" cy="66" rx="14" ry="6" transform="rotate(-22 46 66)" fill="#DDEBD8"/>
+                                    <ellipse cx="64" cy="56" rx="16" ry="7" transform="rotate(-8 64 56)" fill="#9BBF8F"/>
+                                    <ellipse cx="76" cy="44" rx="12" ry="6" transform="rotate(12 76 44)" fill="#9BBF8F"/>
+                                    <ellipse cx="92" cy="106" rx="12" ry="5" transform="rotate(35 92 106)" fill="#DDEBD8"/>
+                                    <!-- Heart accent -->
+                                    <path d="M82 112 C84 108 88 108 88 112 C88 116 82 120 82 120 C82 120 76 116 76 112 C76 108 80 108 82 112Z" fill="#E9A6A6" opacity="0.7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Compact Calendar ── -->
+                    <div class="home-card calendar-card">
+                        <div class="cal-header">
+                            <h3 id="cal-month-label" class="cal-month-label">September 2026</h3>
+                            <div class="cal-controls">
+                                <button type="button" class="cal-btn" id="cal-prev" aria-label="Previous month">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                                </button>
+                                <button type="button" class="cal-btn cal-btn-today" id="cal-today">Today</button>
+                                <button type="button" class="cal-btn" id="cal-next" aria-label="Next month">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="cal-grid" class="cal-grid" aria-label="Calendar">
+                            <!-- Generated by home.js -->
+                        </div>
+                        <div class="cal-legend">
+                            <span class="cal-legend-item"><span class="cal-legend-dot" style="background:#9BBF8F"></span> Memory Day</span>
+                            <span class="cal-legend-item"><span class="cal-legend-dot" style="background:#E9A6A6"></span> Birthday</span>
+                            <span class="cal-legend-item"><span class="cal-legend-dot" style="background:#9BBF8F"></span> Special Day</span>
+                            <span class="cal-legend-item"><span class="cal-legend-dot" style="background:#E9A6A6"></span> Anniversary</span>
+                            <span class="cal-legend-item"><span class="cal-legend-dot" style="background:#D8A94E"></span> Achievement</span>
+                        </div>
+                    </div>
+
+                    <!-- ── Upcoming & Special Days ── -->
+                    <div class="home-card upcoming-card">
+                        <div class="home-card-header">
+                            <h3 class="home-card-title"><span class="title-emoji">🗓</span> Upcoming &amp; Special Days</h3>
+                            <button type="button" class="home-card-action">+ Add Day</button>
+                        </div>
+                        <div class="upcoming-list" id="home-upcoming-list">
+                            <!-- Populated dynamically by home.js -->
+                        </div>
+                    </div>
+
+                    <!-- ── Recent Memories ── -->
+                    <div class="home-card recent-card">
+                        <div class="home-card-header">
+                            <h3 class="home-card-title"><span class="title-emoji">📸</span> Recent Memories</h3>
+                            <button type="button" class="home-card-action">View All</button>
+                        </div>
+                        <div class="recent-grid" id="home-recent-grid">
+                            <!-- Populated by home.js -->
+                        </div>
+                    </div>
+
+                    <!-- ── Capture a Memory ── -->
+                    <div class="home-card capture-card">
+                        <div class="capture-icon">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        </div>
+                        <h3>Capture a Memory</h3>
+                        <p class="capture-desc">Photos, Voice or Video.<br>Every moment matters.</p>
+                        <button type="button" class="btn-capture" id="capture-now-btn">Capture Now →</button>
+                    </div>
+
+                </section>
+            </main>
+
+            <!-- ═══ CAPTURE PAGE ═══ -->
+            <main id="page-capture" class="page-content hidden">
+                <div class="capture-layout">
+                    <!-- Left: Decoration -->
+                    <div class="capture-left-deco" aria-hidden="true">
+                        <svg viewBox="0 0 100 200" width="80">
+                            <!-- Botanical decoration -->
+                            <path d="M50 180 C40 120 70 60 50 20" stroke="#1C5A48" stroke-width="2" fill="none" />
+                            <ellipse cx="65" cy="140" rx="15" ry="6" transform="rotate(-30 65 140)" fill="#9BBF8F"/>
+                            <ellipse cx="35" cy="100" rx="12" ry="5" transform="rotate(30 35 100)" fill="#DDEBD8"/>
+                            <ellipse cx="70" cy="70" rx="14" ry="7" transform="rotate(-20 70 70)" fill="#9BBF8F"/>
+                            <ellipse cx="40" cy="40" rx="10" ry="4" transform="rotate(25 40 40)" fill="#DDEBD8"/>
+                        </svg>
+                    </div>
+
+                    <!-- Center: Capture Form -->
+                    <div class="capture-center">
+                        <header class="capture-header">
+                            <h1 class="capture-title">Capture a <span class="highlight-serif">Memory</span></h1>
+                            <p class="capture-subtitle">Every memory you capture helps your plant grow, Anu. 🌱</p>
+                        </header>
+                        
+                        <div id="capture-success-msg" class="capture-success-msg hidden" aria-live="polite">
+                            Memory saved successfully 🌱
+                        </div>
+
+                        <form id="capture-form" class="capture-form">
+                            <!-- 1. Type -->
+                            <div class="form-section">
+                                <h2>1. Choose Capture Type</h2>
+                                <div class="type-selector">
+                                    <label class="type-btn">
+                                        <input type="radio" name="capture-type" value="photo" checked>
+                                        <span class="type-btn-content">
+                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                            Photo
+                                        </span>
+                                    </label>
+                                    <label class="type-btn">
+                                        <input type="radio" name="capture-type" value="voice">
+                                        <span class="type-btn-content">
+                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                                            Voice
+                                        </span>
+                                    </label>
+                                    <label class="type-btn">
+                                        <input type="radio" name="capture-type" value="video">
+                                        <span class="type-btn-content">
+                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                            Video
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 2. Media Area -->
+                            <div class="form-section">
+                                <h2 id="media-step-title">2. Add Photo</h2>
+                                
+                                <!-- PHOTO PANEL -->
+                                <div id="panel-photo" class="media-panel active">
+                                    <div id="photo-dropzone" class="dropzone">
+                                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                        <p>Drag &amp; drop your photo here<br><span>or click to browse</span></p>
+                                        <input type="file" id="photo-input" accept="image/jpeg, image/png, image/webp" hidden>
+                                    </div>
+                                    <div id="photo-preview-area" class="preview-area hidden">
+                                        <img id="photo-preview-img" src="" alt="Preview">
+                                        <div class="preview-info">
+                                            <div class="file-details">
+                                                <p id="photo-filename" class="filename"></p>
+                                                <p id="photo-filesize" class="filesize"></p>
+                                            </div>
+                                            <div class="preview-actions">
+                                                <button type="button" id="photo-change-btn" class="btn-secondary">Change</button>
+                                                <button type="button" id="photo-remove-btn" class="btn-danger">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="format-help">Supported formats: JPG, PNG, WEBP</p>
+                                </div>
+
+                                <!-- VOICE PANEL -->
+                                <div id="panel-voice" class="media-panel hidden">
+                                    <div class="voice-controls">
+                                        <div class="voice-status">
+                                            <div id="voice-indicator" class="indicator"></div>
+                                            <span id="voice-time">00:00</span>
+                                        </div>
+                                        <div class="voice-actions">
+                                            <button type="button" id="btn-record-start" class="btn-record">🎙 Start Recording</button>
+                                            <button type="button" id="btn-record-stop" class="btn-stop hidden">⏹ Stop Recording</button>
+                                            <div class="upload-alt">
+                                                <span>or</span>
+                                                <button type="button" id="btn-audio-upload" class="btn-text">Upload Audio</button>
+                                                <input type="file" id="audio-input" accept="audio/*" hidden>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="audio-preview-area" class="preview-area hidden">
+                                        <audio id="audio-player" controls></audio>
+                                        <div class="preview-info" style="margin-top: 10px;">
+                                            <div class="preview-actions">
+                                                <button type="button" id="audio-remove-btn" class="btn-danger">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VIDEO PANEL -->
+                                <div id="panel-video" class="media-panel hidden">
+                                    <div id="video-dropzone" class="dropzone">
+                                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                        <p>Drag &amp; drop your video here<br><span>or click to browse</span></p>
+                                        <input type="file" id="video-input" accept="video/mp4, video/webm, video/ogg" hidden>
+                                    </div>
+                                    <div id="video-preview-area" class="preview-area hidden">
+                                        <video id="video-player" controls></video>
+                                        <div class="preview-info">
+                                            <div class="file-details">
+                                                <p id="video-filename" class="filename"></p>
+                                                <p id="video-filesize" class="filesize"></p>
+                                            </div>
+                                            <div class="preview-actions">
+                                                <button type="button" id="video-change-btn" class="btn-secondary">Change</button>
+                                                <button type="button" id="video-remove-btn" class="btn-danger">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p id="media-error" class="field-error" aria-live="polite" style="margin-top:8px">Please provide media for your memory.</p>
+                            </div>
+
+                            <!-- 3. Story & Reflection -->
+                            <div class="form-section">
+                                <h2>3. Story &amp; Reflection</h2>
+                                <div class="textarea-wrapper">
+                                    <input type="text" id="memory-title" class="memory-title-input" placeholder="Title your memory..." required>
+                                    <p id="title-error" class="field-error" aria-live="polite" style="margin-bottom:8px">Title is required.</p>
+                                    
+                                    <textarea id="memory-story" placeholder="Write your reflection...&#10;What made this moment special?" maxlength="500"></textarea>
+                                    <div class="char-counter"><span id="char-count">0</span> / 500</div>
+                                </div>
+                            </div>
+
+                            <!-- Soundtrack -->
+                            <div class="form-section soundtrack-section" style="background: var(--color-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-bottom: 24px;">
+                                <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:1.1rem; color:var(--color-text);">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--color-green)"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                    Add a Soundtrack
+                                </h3>
+                                <p style="color:var(--color-text-secondary); font-size:0.9rem; margin-bottom:16px;">Give this memory a song or sound to remember it by.</p>
+                                
+                                <div id="soundtrack-empty-state">
+                                    <button type="button" class="btn-secondary" id="btn-add-soundtrack" style="width:100%; justify-content:center;">
+                                        + Choose Music
+                                    </button>
+                                </div>
+
+                                <div id="soundtrack-filled-state" class="hidden" style="background:var(--color-bg); border:1px solid var(--color-border); padding:16px; border-radius:var(--radius-md);">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                        <p id="soundtrack-filename" style="font-weight:600; font-size:0.95rem; margin:0; word-break:break-all;"></p>
+                                        <p id="soundtrack-duration" style="font-size:0.85rem; color:var(--color-text-muted); margin:0;"></p>
+                                    </div>
+                                    <audio id="soundtrack-player" controls style="width:100%; height:40px; margin-bottom:16px;"></audio>
+                                    <div style="display:flex; gap:12px;">
+                                        <button type="button" class="btn-secondary" id="btn-change-soundtrack" style="flex:1; justify-content:center; padding:8px 12px; font-size:0.9rem;">Change</button>
+                                        <button type="button" class="btn-secondary" id="btn-remove-soundtrack" style="flex:1; justify-content:center; padding:8px 12px; font-size:0.9rem; color:var(--color-error); border-color:var(--color-error-light);">Remove</button>
+                                    </div>
+                                </div>
+                                <input type="file" id="soundtrack-input" accept=".mp3,.wav,.m4a,.aac,.ogg" class="hidden">
+                            </div>
+
+                            <!-- 4. Details -->
+                            <div class="form-section">
+                                <h2>4. Memory Details</h2>
+                                <div class="details-grid">
+                                    <div class="detail-field">
+                                        <label>Date</label>
+                                        <div class="input-with-icon">
+                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                            <input type="date" id="memory-date">
+                                        </div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <label>Location <span class="optional">(Optional)</span></label>
+                                        <div class="input-with-icon">
+                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                            <input type="text" id="memory-location" placeholder="Add location...">
+                                        </div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <label>Mark as Favorite</label>
+                                        <label class="favorite-toggle">
+                                            <input type="checkbox" id="memory-favorite">
+                                            <span class="heart-icon">
+                                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                            </span>
+                                            Add to Favorites
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Save &amp; Grow Plant 🌱</button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Tip & Recent -->
+                    <div class="capture-right">
+                        <div class="tip-card">
+                            <div class="tip-header">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#D8A94E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                <h4>Memory Tip</h4>
+                            </div>
+                            <p>Small moments become beautiful memories.</p>
+                        </div>
+                        
+                        <div class="recent-captures-list">
+                            <div class="recent-header">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                <h4>Recent Captures</h4>
+                            </div>
+                            <div id="recent-captures-container">
+                                <p class="empty-state">No memories captured yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- ═══ TIMELINE PAGE ═══ -->
+            <main id="page-timeline" class="page-content hidden">
+                <!-- Header -->
+                <header class="tl-header">
+                    <div class="tl-title-area">
+                        <h1 class="tl-title">Your Memory Journey 🌿</h1>
+                        <p class="tl-subtitle">A chronological journey of your memories, moments and growth.</p>
+                    </div>
+                    <div class="tl-hero-msg">
+                        <div class="tl-quote">❝</div>
+                        <div class="tl-hero-text">
+                            Every memory has a moment.<br>Here's your journey through time.
+                        </div>
+                        <svg class="tl-hero-bg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50,100 Q80,50 100,20 L100,100 Z"/></svg>
+                    </div>
+                </header>
+
+                <!-- Filter Bar -->
+                <div class="tl-filter-bar">
+                    <div class="tl-filters-left">
+                        <button class="tl-filter-btn active" data-type="all">All</button>
+                        <button class="tl-filter-btn" data-type="photo">📷 Photos</button>
+                        <button class="tl-filter-btn" data-type="video">🎥 Videos</button>
+                        <button class="tl-filter-btn" data-type="voice">🎙 Voice</button>
+                        <button class="tl-filter-btn" data-type="favorites">❤️ Favorites</button>
+                    </div>
+                    
+                    <div class="tl-filters-middle">
+                        <div class="tl-search-wrapper">
+                            <span class="tl-search-icon">🔍</span>
+                            <input type="text" id="tl-search" placeholder="Search memories...">
+                        </div>
+                        <select id="tl-year-select" class="tl-select">
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+
+                    <div class="tl-filters-right">
+                        <button class="tl-filter-btn" data-date="today">Today</button>
+                        <button class="tl-filter-btn" data-date="week">This Week</button>
+                        <button class="tl-filter-btn" data-date="month">This Month</button>
+                        <button class="tl-filter-btn" data-date="year">This Year</button>
+                    </div>
+                </div>
+
+                <!-- Chronological Timeline -->
+                <div class="tl-main-container" id="tl-main-container">
+                    <!-- JS will populate -->
+                </div>
+            </main>
+
+            <!-- ═══ MEMORIES PAGE ═══ -->
+            <main id="page-memories" class="page-content hidden">
+                <header class="gallery-header">
+                    <h1 class="gallery-title">Your Memories <span style="color:var(--color-sage)">🌱</span></h1>
+                    <p class="gallery-subtitle">All the little moments you've chosen to keep.</p>
+                </header>
+                <div class="gallery-controls">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-type="all">All</button>
+                        <button class="filter-btn" data-type="photo">📷 Photo</button>
+                        <button class="filter-btn" data-type="voice">🎙 Voice</button>
+                        <button class="filter-btn" data-type="video">🎥 Video</button>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="sort-group">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg>
+                            <select class="sort-select">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                            </select>
+                        </div>
+                        <div class="view-toggles">
+                            <button class="view-btn active" data-layout="grid" title="Grid View">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            </button>
+                            <button class="view-btn" data-layout="list" title="List View">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="memories-container">
+                    <!-- Javascript will render memories gallery here -->
+                </div>
+            </main>
+
+            <!-- ═══ FAVORITES PAGE ═══ -->
+            <main id="page-favorites" class="page-content hidden">
+                <header class="gallery-header">
+                    <h1 class="gallery-title"><span style="color:var(--color-error)">❤</span> Favorite Memories</h1>
+                    <p class="gallery-subtitle">The moments that mean a little more.</p>
+                </header>
+                <div class="gallery-controls">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-type="all">All</button>
+                        <button class="filter-btn" data-type="photo">📷 Photo</button>
+                        <button class="filter-btn" data-type="voice">🎙 Voice</button>
+                        <button class="filter-btn" data-type="video">🎥 Video</button>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="sort-group">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg>
+                            <select class="sort-select">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                            </select>
+                        </div>
+                        <div class="view-toggles">
+                            <button class="view-btn active" data-layout="grid" title="Grid View">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            </button>
+                            <button class="view-btn" data-layout="list" title="List View">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="favorites-container">
+                    <!-- Javascript will render favorite memories here -->
+                </div>
+            </main>
+
+            <!-- ═══ CALENDAR PAGE ═══ -->
+            <main id="page-calendar" class="page-content hidden">
+                <header class="calendar-header">
+                    <h1 class="calendar-title">Your Special Days <span style="color:var(--color-sage)">🌱</span></h1>
+                    <p class="calendar-subtitle">Keep the moments that matter close to you.</p>
+                </header>
+
+                <div class="calendar-layout">
+                    <!-- Left: Upcoming Special Days -->
+                    <div class="cal-left">
+                        <div class="card cal-card">
+                            <div class="cal-card-header">
+                                <div>
+                                    <h2 style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-forest)">Upcoming Special Days</h2>
+                                    <p class="cal-card-subtitle" style="font-size:0.95rem; color:var(--color-text-secondary)">Your important dates and celebrations.</p>
+                                </div>
+                                <button type="button" class="btn-submit btn-sm" id="btn-add-special-day" style="padding: 8px 16px; font-size: 0.9rem; border-radius: 20px;">+ Add Special Day</button>
+                            </div>
+                            
+                            <div class="special-days-list" id="special-days-container">
+                                <!-- Javascript populates list -->
+                            </div>
+                        </div>
+
+                        <!-- Botanical decoration -->
+                        <!-- Reflection Garden -->
+                        <div class="card cal-card" id="reflection-garden-card" style="position: relative; overflow: hidden; background: linear-gradient(to bottom, #FDFBF7, #E9F0E6); padding: 0; margin-top:24px;">
+                            <div style="padding: var(--space-xl); position: relative; z-index: 2;">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                    <div>
+                                        <h2 style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-forest)">Your Reflection Garden <span style="color:var(--color-sage)">🌿</span></h2>
+                                        <p style="font-size:0.95rem; color:var(--color-text-secondary); margin-top:4px;">Every reflection adds a little more life.</p>
+                                    </div>
+                                    <div id="rg-count" style="background:var(--color-sage-light); color:var(--color-forest); padding:4px 12px; border-radius:12px; font-size:0.85rem; font-weight:600;">0 reflections</div>
+                                </div>
+                            </div>
+
+                            <div id="rg-container" style="position: relative; height: 160px; display: flex; align-items: flex-end; justify-content: space-evenly; padding-bottom: 12px; z-index: 1;">
+                                <!-- Ground graphic -->
+                                <svg style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;" preserveAspectRatio="none" viewBox="0 0 100 100">
+                                    <path d="M0 60 Q 25 30 50 50 T 100 40 L 100 100 L 0 100 Z" fill="#9BBF8F" opacity="0.4"/>
+                                    <path d="M0 70 Q 30 50 60 70 T 100 50 L 100 100 L 0 100 Z" fill="#1C5A48" opacity="0.2"/>
+                                    <!-- Tiny stones -->
+                                    <ellipse cx="20" cy="85" rx="3" ry="1.5" fill="#D6D0C4"/>
+                                    <ellipse cx="75" cy="90" rx="4" ry="2" fill="#D6D0C4"/>
+                                    <ellipse cx="45" cy="78" rx="2" ry="1" fill="#D6D0C4"/>
+                                </svg>
+                                
+                                <!-- Flowers injected here via JS -->
+                                <div id="rg-empty" style="display:none; position:absolute; bottom: 30px; left: 50%; transform: translateX(-50%); text-align:center; width: 100%;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🌱</div>
+                                    <p style="color:var(--color-forest); font-weight:600; font-size:0.95rem;">Your garden is waiting</p>
+                                    <p style="color:var(--color-text-secondary); font-size:0.85rem;">Save your first reflection to grow something beautiful.</p>
+                                </div>
+                                
+                                <!-- Popup container -->
+                                <div id="rg-popup" class="rg-popup hidden">
+                                    <button class="rg-popup-close" id="rg-popup-close">&times;</button>
+                                    <div id="rg-popup-date" class="rg-popup-date"></div>
+                                    <div id="rg-popup-mood" class="rg-popup-mood" style="margin-bottom:6px"></div>
+                                    <div id="rg-popup-text" class="rg-popup-text"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Reflections (Moved here) -->
+                        <div class="card cal-card" style="margin-top:24px;">
+                            <div class="cal-card-header" style="margin-bottom:8px">
+                                <h2 style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-forest)">Recent Reflections</h2>
+                            </div>
+                            <p class="cal-card-subtitle" style="font-size:0.95rem; color:var(--color-text-secondary); margin-bottom:16px;">Your thoughts and feelings from recent days.</p>
+                            
+                            <div class="recent-reflections-list" id="reflections-container">
+                                <!-- Javascript populates this -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Today's Reflection & Recent Reflections -->
+                    <div class="cal-right">
+                        <!-- Today's Reflection -->
+                        <div class="card cal-card">
+                            <div class="cal-card-header" style="margin-bottom:8px">
+                                <h2 style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-forest)">Today's Reflection</h2>
+                            </div>
+                            <p class="cal-card-subtitle" style="font-size:0.95rem; color:var(--color-text-secondary); margin-bottom:16px;">Pause for a moment and capture how today felt.</p>
+                            
+                            <form id="reflection-form">
+                                <div class="textarea-wrapper" style="margin-bottom:16px; position:relative;">
+                                    <textarea id="reflection-text" placeholder="How was your day?&#10;What made today special?" maxlength="500" required style="width:100%; height:120px; padding:12px; border:1px solid #D6D0C4; border-radius:8px; resize:none; font-family:inherit; background:var(--color-bg)"></textarea>
+                                    <div style="text-align:right; font-size:0.75rem; color:var(--color-text-muted); margin-top:4px"><span id="ref-char-count">0</span> / 500</div>
+                                </div>
+                                
+                                <p style="font-weight:600; font-size:0.9rem; margin-bottom:8px; color:var(--color-forest)">Select your mood</p>
+                                <div class="mood-selector" id="mood-selector" style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px">
+                                    <button type="button" class="mood-btn" data-mood="Happy" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>😊</span> Happy</button>
+                                    <button type="button" class="mood-btn" data-mood="Calm" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>😌</span> Calm</button>
+                                    <button type="button" class="mood-btn" data-mood="Loved" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>🥰</span> Loved</button>
+                                    <button type="button" class="mood-btn" data-mood="Excited" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>🤩</span> Excited</button>
+                                    <button type="button" class="mood-btn" data-mood="Sad" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>😔</span> Sad</button>
+                                    <button type="button" class="mood-btn" data-mood="Frustrated" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>😤</span> Frustrated</button>
+                                    <button type="button" class="mood-btn" data-mood="Tired" style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px; background:transparent; border:1px solid #EDE8DE; border-radius:8px; cursor:pointer; font-size:0.8rem"><span>😴</span> Tired</button>
+                                </div>
+                                <p id="mood-error" style="color:var(--color-error); font-size:0.85rem; display:none; margin-bottom:8px;">Please select a mood.</p>
+                                
+                                <div id="reflection-success" class="hidden" style="color:var(--color-green); background:var(--color-sage-light); padding:8px; border-radius:4px; font-size:0.85rem; text-align:center; margin-bottom:8px">Your reflection has been saved 🌱</div>
+                                
+                                <button type="submit" class="btn-submit" style="width:100%; padding:12px; font-size:1rem">Save Reflection 🌱</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+
+            <!-- ═══ PLACEHOLDER PAGE (for unbuilt pages) ═══ -->
+            <!-- 🌿 STREAKS & INSIGHTS PAGE 🌿 -->
+            <main id="page-streaks" class="page-content hidden">
+                <header style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:32px;">
+                    <div>
+                        <h1 class="calendar-title">Streaks &amp; Insights 🌱</h1>
+                        <p class="calendar-subtitle">Look back at your journey and see how consistent you've been.</p>
+                    </div>
+                    <div style="background:var(--color-sage-light); padding:16px 20px; border-radius:var(--radius-md); max-width:320px; display:flex; gap:12px; align-items:center;">
+                        <span style="font-size:1.8rem; color:var(--color-green)">❝</span>
+                        <p style="color:var(--color-forest); font-size:0.9rem; font-weight:500; margin:0;">Small memories, captured consistently,<br>create a more beautiful you. <span style="color:var(--color-sage)">🌱</span></p>
+                    </div>
+                </header>
+
+                <!-- Top Cards -->
+                <div class="str-grid-3">
+                    <!-- Current Streak -->
+                    <div class="card cal-card" style="position:relative; overflow:hidden;">
+                        <div class="str-card-title"><span>🔥</span> Current Streak</div>
+                        <div style="display:flex; align-items:baseline; gap:8px">
+                            <span class="str-value-lg" id="str-current-val">0</span>
+                            <span class="str-value-label">days in a row</span>
+                        </div>
+                        <p class="str-card-subtitle" style="margin-top:8px">Keep going! You're doing great! 🌱</p>
+                        <div class="str-last-7-container" id="str-last-7">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Longest Streak -->
+                    <div class="card cal-card" style="position:relative; overflow:hidden;">
+                        <div class="str-card-title"><span>👑</span> Longest Streak</div>
+                        <div style="display:flex; align-items:baseline; gap:8px">
+                            <span class="str-value-lg" id="str-longest-val">0</span>
+                            <span class="str-value-label">days</span>
+                        </div>
+                        <p class="str-card-subtitle" style="margin-top:8px">Your best record so far.</p>
+                        <!-- Simple decorative visual -->
+                        <div style="margin-top:24px; position:relative; height:60px">
+                            <svg viewBox="0 0 100 50" width="100%" height="100%" preserveAspectRatio="none" style="position:absolute; bottom:0;">
+                                <defs>
+                                    <linearGradient id="strLineGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="var(--color-sage)" stop-opacity="0.5"/>
+                                        <stop offset="100%" stop-color="var(--color-sage)" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0,40 L10,35 L25,38 L40,20 L55,25 L75,10 L90,15 L100,20 L100,50 L0,50 Z" fill="url(#strLineGrad)"/>
+                                <path d="M0,40 L10,35 L25,38 L40,20 L55,25 L75,10 L90,15 L100,20" fill="none" stroke="var(--color-green)" stroke-width="2"/>
+                                <circle cx="75" cy="10" r="4" fill="var(--color-forest)"/>
+                            </svg>
+                            <div style="position:absolute; top: -10px; right: 10px; background:var(--color-forest); color:white; font-size:0.7rem; padding:4px 10px; border-radius:4px; font-weight:600;" id="str-longest-badge">Best</div>
+                        </div>
+                    </div>
+
+                    <!-- This Month -->
+                    <div class="card cal-card" style="position:relative; overflow:hidden;">
+                        <div class="str-card-title"><span>📅</span> This Month</div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                            <div style="z-index:2;">
+                                <div style="display:flex; align-items:baseline; gap:8px">
+                                    <span class="str-value-lg" id="str-month-active">0</span>
+                                    <span class="str-value-label">days active</span>
+                                </div>
+                                <p class="str-card-subtitle" style="margin-top:8px; max-width:140px;" id="str-month-total">You captured memories on 0 of 30 days.</p>
+                            </div>
+                            <div class="str-radial-wrap" id="str-month-radial" style="z-index:2; margin-right:16px; margin-bottom:8px;">
+                                <div class="str-radial-inner" id="str-month-percent" style="font-size:1.1rem; color:var(--color-forest);">0%</div>
+                            </div>
+                        </div>
+                        <!-- Decorative leaves on the right -->
+                        <div style="position:absolute; right:-10px; bottom:-10px; opacity:0.6; z-index:1; pointer-events:none;">
+                            <svg viewBox="0 0 100 100" width="100" height="100" fill="var(--color-sage)"><path d="M80,100 C70,80 80,60 100,50 C100,70 90,90 80,100 Z"/><path d="M60,100 C50,70 70,40 90,30 C95,50 80,80 60,100 Z" fill="var(--color-green)" opacity="0.8"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Row: Calendar & Stats -->
+                <div class="str-grid-2">
+                    <div class="card cal-card">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                            <div>
+                                <div class="str-card-title"><span>🗓️</span> Activity Calendar</div>
+                                <p class="str-card-subtitle" style="margin-top:-10px; margin-bottom:16px;">See your memory activity for each day.</p>
+                            </div>
+                            <div class="str-cal-controls">
+                                <button type="button" class="str-cal-btn" id="str-cal-prev">&lt;</button>
+                                <div id="str-cal-month" style="font-weight:600; color:var(--color-forest); min-width:110px; text-align:center">October 2026</div>
+                                <button type="button" class="str-cal-btn" id="str-cal-next">&gt;</button>
+                            </div>
+                        </div>
+                        <div class="str-cal-grid" id="str-cal-grid" style="position:relative;">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div style="display:flex; gap:16px; margin-top:20px; padding-top:16px; border-top:1px solid var(--color-bg); font-size:0.75rem; color:var(--color-text-muted)">
+                            <div style="display:flex; align-items:center; gap:6px"><div class="str-cal-dot bg-green"></div> Captured Memory</div>
+                            <div style="display:flex; align-items:center; gap:6px"><div class="str-cal-dot bg-empty"></div> No Capture</div>
+                            <div style="display:flex; align-items:center; gap:6px"><div style="width:14px; height:14px; background:var(--color-sage-light); border-radius:50%"></div> Today</div>
+                            <div style="display:flex; align-items:center; gap:6px"><div class="str-cal-dot" style="background:var(--color-pink)"></div> Special Day</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card cal-card">
+                        <div class="str-card-title"><span>📊</span> Your Statistics</div>
+                        <p class="str-card-subtitle" style="margin-top:-10px; margin-bottom:24px;">A quick look at your memory journey.</p>
+                        <div class="str-stats-grid">
+                            <div class="str-stat-box">
+                                <div class="str-stat-icon">🍃</div>
+                                <div><div class="str-stat-val" id="stat-total">0</div><div class="str-stat-lbl">Total Memories</div></div>
+                            </div>
+                            <div class="str-stat-box">
+                                <div class="str-stat-icon">🔥</div>
+                                <div><div class="str-stat-val" id="stat-current">0</div><div class="str-stat-lbl">Current Streak</div></div>
+                            </div>
+                            <div class="str-stat-box">
+                                <div class="str-stat-icon">👑</div>
+                                <div><div class="str-stat-val" id="stat-longest">0</div><div class="str-stat-lbl">Longest Streak</div></div>
+                            </div>
+                            <div class="str-stat-box">
+                                <div class="str-stat-icon">📅</div>
+                                <div><div class="str-stat-val" id="stat-month-active">0</div><div class="str-stat-lbl">Active Days<br>This Month</div></div>
+                            </div>
+                            <div class="str-stat-box">
+                                <div class="str-stat-icon">📊</div>
+                                <div><div class="str-stat-val" id="stat-year-active">0</div><div class="str-stat-lbl">Active Days<br>This Year</div></div>
+                            </div>
+                            <div class="str-stat-box">
+                                <div class="str-stat-icon">🌱</div>
+                                <div><div class="str-stat-val" id="stat-months">0</div><div class="str-stat-lbl">Months Active</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Milestones & Insights -->
+                <div class="str-grid-2">
+                    <div class="card cal-card">
+                        <div class="str-card-title"><span>🏆</span> Milestones</div>
+                        <p class="str-card-subtitle" style="margin-top:-10px; margin-bottom:24px;">Celebrate your journey milestones.</p>
+                        <div class="str-ms-track" id="str-milestones-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="card cal-card">
+                        <div class="str-card-title"><span>💡</span> Consistency Insights</div>
+                        <p class="str-card-subtitle" style="margin-top:-10px; margin-bottom:16px;">Interesting patterns from your memory habits.</p>
+                        <div id="str-insights-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- AI COMPANION PAGE -->
+            <main id="page-ai companion" class="page-content hidden">
+                <header style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:32px;">
+                    <div>
+                        <h1 class="calendar-title" style="font-family:var(--font-heading);">Your Memory Companion 🌱</h1>
+                        <p class="calendar-subtitle">I'm here to help you revisit, reflect, and grow through your memories.</p>
+                    </div>
+                </header>
+
+                <div class="ai-layout">
+                    <!-- Left: Chat Interface -->
+                    <div class="ai-chat-area card">
+                        <div class="ai-chat-history" id="ai-chat-history">
+                            <!-- Welcome Message -->
+                            <div class="ai-msg ai-msg-companion">
+                                <div class="ai-avatar">🌱</div>
+                                <div class="ai-bubble">
+                                    <p><strong>Hi Anu! 👋</strong></p>
+                                    <p>I'm your Memory Companion.</p>
+                                    <p>I can help you explore your memories, find patterns, give insights, and suggest reflections.</p>
+                                    <p style="margin-top:12px; font-weight:500;">What would you like to explore today?</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Prompts -->
+                            <div class="ai-quick-prompts">
+                                <button class="ai-prompt-btn" data-prompt="What were my happiest memories this month?">
+                                    <span style="color:var(--color-green)">🍃</span> What were my happiest memories this month? <span class="ai-prompt-arr">&gt;</span>
+                                </button>
+                                <button class="ai-prompt-btn" data-prompt="Give me a summary of this month.">
+                                    <span style="color:#4a90e2">📊</span> Give me a summary of this month. <span class="ai-prompt-arr">&gt;</span>
+                                </button>
+                                <button class="ai-prompt-btn" data-prompt="What moments did I capture recently?">
+                                    <span style="color:#4a90e2">📅</span> What moments did I capture recently? <span class="ai-prompt-arr">&gt;</span>
+                                </button>
+                                <button class="ai-prompt-btn" data-prompt="Suggest something I can reflect on today.">
+                                    <span style="color:var(--color-gold)">💡</span> Suggest something I can reflect on today. <span class="ai-prompt-arr">&gt;</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="ai-chat-input-area">
+                            <button class="ai-attach-btn" title="Attach">📎</button>
+                            <input type="text" id="ai-chat-input" placeholder="Ask me about your memories..." autocomplete="off">
+                            <button class="ai-send-btn" id="ai-chat-send" title="Send">&gt;</button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Insights Area -->
+                    <div class="ai-sidebar">
+                        
+                        <!-- Top Motivational Quote -->
+                        <div class="ai-quote-card">
+                            <div class="ai-quote-icon">❝</div>
+                            <div class="ai-quote-text">Every memory you capture is a step towards a more thoughtful and happier you.</div>
+                            <svg class="ai-quote-bg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50,100 Q80,50 100,20 L100,100 Z" fill="var(--color-green)" opacity="0.1"/></svg>
+                        </div>
+
+                        <!-- This Month's Mood -->
+                        <div class="card ai-side-card">
+                            <div class="ai-card-header">
+                                <span class="ai-card-icon">📊</span>
+                                <div>
+                                    <div class="ai-card-title">This Month's Mood</div>
+                                    <div class="ai-card-subtitle">Based on your memories and reflections</div>
+                                </div>
+                            </div>
+                            <div id="ai-mood-container" style="margin-top:16px;">
+                                <p style="color:var(--color-text-muted); font-size:0.85rem;">Save a few reflections to discover your mood patterns.</p>
+                            </div>
+                        </div>
+
+                        <!-- Memory Themes -->
+                        <div class="card ai-side-card">
+                            <div class="ai-card-header">
+                                <span class="ai-card-icon">🏷️</span>
+                                <div>
+                                    <div class="ai-card-title">Memory Themes</div>
+                                    <div class="ai-card-subtitle">Common themes from your recent memories</div>
+                                </div>
+                            </div>
+                            <div class="ai-themes-container" id="ai-themes-container" style="margin-top:16px;">
+                                <p style="color:var(--color-text-muted); font-size:0.85rem;">Capture more memories to discover your common themes.</p>
+                            </div>
+                        </div>
+
+                        <!-- Recent Insights -->
+                        <div class="card ai-side-card">
+                            <div class="ai-card-header">
+                                <span class="ai-card-icon">✨</span>
+                                <div>
+                                    <div class="ai-card-title">Recent Insights</div>
+                                    <div class="ai-card-subtitle">Discover interesting patterns about your journey.</div>
+                                </div>
+                            </div>
+                            <div class="ai-insights-list" id="ai-insights-list" style="margin-top:16px;">
+                                <p style="color:var(--color-text-muted); font-size:0.85rem;">Insufficient data to generate insights.</p>
+                            </div>
+                        </div>
+
+                        <!-- Reflection Prompt -->
+                        <div class="card ai-side-card" style="margin-bottom:0;">
+                            <div class="ai-card-header">
+                                <span class="ai-card-icon" style="color:var(--color-gold)">💡</span>
+                                <div>
+                                    <div class="ai-card-title">Reflection Prompt</div>
+                                    <div class="ai-card-subtitle">A thought to reflect on today.</div>
+                                </div>
+                            </div>
+                            <div class="ai-reflection-box">
+                                <div class="ai-quote-icon">❝</div>
+                                <div id="ai-reflection-text">What is one moment from this week that you're really grateful for?</div>
+                                <svg class="ai-reflection-bg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50,100 Q80,50 100,20 L100,100 Z" fill="var(--color-green)" opacity="0.1"/></svg>
+                            </div>
+                            <button type="button" class="btn-submit" id="ai-start-reflection" style="margin-top:16px; width:100%;">Start Reflection</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- MONTHLY RECAP PAGE -->
+            <main id="page-monthly recap" class="page-content hidden">
+                <!-- Header Row -->
+                <header class="recap-header">
+                    <div class="recap-title-area">
+                        <h1 class="recap-title">Monthly Recap <span style="font-size:1.8rem; color:var(--color-sage);">📅</span></h1>
+                        <p class="recap-subtitle">A cinematic look back at your memories, moments and growth.</p>
+                    </div>
+                    
+                    <div class="recap-hero-msg">
+                        <div class="recap-quote">❝</div>
+                        <div class="recap-hero-text">
+                            <div style="font-weight:600;">Small moments, big progress.</div>
+                            <div>Here's your story from <span id="recap-month-name-hero" style="font-weight:600;">October 2026</span>.</div>
+                        </div>
+                        <div class="recap-month-controls">
+                            <button id="recap-prev-btn" class="icon-btn">&lt;</button>
+                            <span id="recap-month-display">October 2026</span>
+                            <button id="recap-next-btn" class="icon-btn">&gt;</button>
+                        </div>
+                        <svg class="recap-hero-bg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50,100 Q80,50 100,20 L100,100 Z"/></svg>
+                    </div>
+                </header>
+
+                <div class="recap-layout">
+                    <!-- Left Column -->
+                    <div class="recap-left">
+                        <!-- Video Card -->
+                        <div class="card recap-card recap-film-card">
+                            <div class="recap-video-container" id="recap-video-container">
+                                <!-- Dynamic: video or empty state -->
+                            </div>
+                            <div class="recap-film-footer">
+                                <div class="recap-film-info">
+                                    <div class="recap-film-title">🎬 Your <span id="recap-film-month">October</span> Memory Film</div>
+                                    <div class="recap-film-stats" id="recap-film-stats">0 memories • 0 active days • 0 special days</div>
+                                </div>
+                                <button id="recap-play-btn" class="btn-submit"><span style="margin-right:8px;">▶</span> Play Recap</button>
+                                <button class="btn-outline" style="padding:10px; border-radius:50%; margin-left:12px;" title="Settings">⚙️</button>
+                            </div>
+                        </div>
+
+                        <!-- Month in Moments -->
+                        <div class="card recap-card">
+                            <div class="recap-card-header" style="justify-content:space-between; display:flex;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <span style="color:var(--color-gold); font-size:1.5rem;">⭐</span>
+                                    <div style="font-weight:600; color:var(--color-forest); font-size:1.1rem;">Your Month in Moments</div>
+                                </div>
+                                <a href="#" id="recap-view-all" style="font-size:0.8rem; color:var(--color-forest); font-weight:600; text-decoration:none;">View All Memories &gt;</a>
+                            </div>
+                            <div style="font-size:0.85rem; color:var(--color-text-secondary); margin-bottom:16px;">Some of your favorite memories from this month.</div>
+                            
+                            <div class="recap-moments-grid" id="recap-moments-grid">
+                                <!-- Dynamic memory cards -->
+                            </div>
+                        </div>
+
+                        <!-- Share Your Story -->
+                        <div class="card recap-card recap-share-card">
+                            <div class="recap-share-info">
+                                <div style="font-weight:600; color:var(--color-forest); margin-bottom:4px; font-size:1.1rem;">Share Your Story</div>
+                                <div style="font-size:0.85rem; color:var(--color-text-secondary);">Download or share your monthly recap video and highlights.</div>
+                            </div>
+                            <div class="recap-share-actions">
+                                <button class="btn-submit" id="recap-download-btn" style="background:var(--color-forest);"><span style="margin-right:6px;">📥</span> Download Video</button>
+                                <button class="btn-outline" id="recap-share-btn"><span style="margin-right:6px;">🔗</span> Share Recap</button>
+                            </div>
+                            <svg class="recap-share-bg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="var(--color-green)"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="recap-right">
+                        <!-- What You Felt -->
+                        <div class="card recap-card">
+                            <div class="recap-card-header">
+                                <span style="font-size:1.5rem;">😀</span>
+                                <div>
+                                    <div style="font-weight:600; color:var(--color-forest); font-size:1.1rem;">What You Felt</div>
+                                    <div style="font-size:0.85rem; color:var(--color-text-secondary);">A glimpse of your emotions this month.</div>
+                                </div>
+                            </div>
+                            <div id="recap-mood-content" style="margin-top:16px;">
+                                <!-- Dynamic chart -->
+                            </div>
+                        </div>
+
+                        <!-- How You Grew -->
+                        <div class="card recap-card">
+                            <div class="recap-card-header">
+                                <span style="font-size:1.5rem; color:var(--color-green);">🍃</span>
+                                <div>
+                                    <div style="font-weight:600; color:var(--color-forest); font-size:1.1rem;">How You Grew</div>
+                                    <div style="font-size:0.85rem; color:var(--color-text-secondary);">Your progress and activity this month.</div>
+                                </div>
+                            </div>
+                            <div class="recap-stats-grid" id="recap-stats-grid" style="margin-top:16px;">
+                                <!-- Dynamic stats -->
+                            </div>
+                        </div>
+
+                        <!-- A Note From Your Month -->
+                        <div class="card recap-card recap-note-card">
+                            <div class="recap-card-header">
+                                <span style="font-size:1.5rem;">💌</span>
+                                <div style="font-weight:600; color:var(--color-forest); font-size:1.1rem;">A Note From Your Month</div>
+                            </div>
+                            <div class="recap-note-content" id="recap-note-text" style="margin-top:16px;">
+                                <!-- Dynamic text -->
+                            </div>
+                            <div class="recap-note-signature">
+                                Proud of you,<br>Anu <span style="color:var(--color-pink);">🤍</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- SETTINGS PAGE -->
+            <main id="page-settings" class="page-content hidden">
+                <header class="settings-header">
+                    <div class="settings-title-area">
+                        <h1 class="settings-title">Settings ⚙️</h1>
+                        <p class="settings-subtitle">Personalize your experience and manage your data.</p>
+                    </div>
+                    <div class="settings-hero-msg">
+                        <div class="settings-quote">❝</div>
+                        <div class="settings-hero-text">
+                            A more personal, meaningful<br>and safer memory journey for you.
+                        </div>
+                        <svg class="settings-hero-bg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50,100 Q80,50 100,20 L100,100 Z"/></svg>
+                    </div>
+                </header>
+
+                <!-- Profile Section -->
+                <section class="settings-profile-card">
+                    <div style="display:flex; gap:24px; align-items:center;">
+                        <div class="settings-avatar" id="settings-avatar">A <div class="settings-avatar-cam">📷</div></div>
+                        <div class="settings-profile-info">
+                            <h2 id="settings-name">Anu</h2>
+                            <div id="settings-email">anu@example.com</div>
+                            <div class="settings-member-since">📅 Capturing moments since <span id="settings-date">Oct 2026</span></div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+                        <button class="btn-outline" id="btn-edit-profile" style="background:white; border-color:#ddd;">✎ Edit Profile</button>
+                        <div class="settings-profile-bg-card">
+                            <div style="font-size:1.2rem; color:var(--color-pink);">❤️</div>
+                            <div>Same you,<br>more memories ahead.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Grid Layout -->
+                <div class="settings-grid">
+                    <!-- Left Column -->
+                    <div class="settings-column">
+                        <!-- Memory Preferences -->
+                        <div class="card settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-icon">📖</span>
+                                <div>
+                                    <div class="settings-card-title">Memory Preferences</div>
+                                    <div class="settings-card-subtitle">Customize how you capture and view your memories.</div>
+                                </div>
+                            </div>
+                            <div class="settings-list">
+                                <div class="settings-item">
+                                    <div>
+                                        <div class="settings-item-title">Default Memory View</div>
+                                        <div class="settings-item-desc">Choose how memories are displayed</div>
+                                    </div>
+                                    <select id="pref-default-view" class="settings-select">
+                                        <option value="timeline">Timeline View</option>
+                                        <option value="grid">Grid View</option>
+                                        <option value="list">List View</option>
+                                    </select>
+                                </div>
+                                <div class="settings-item">
+                                    <div>
+                                        <div class="settings-item-title">Auto-Save Memories</div>
+                                        <div class="settings-item-desc">Automatically save drafts while writing</div>
+                                    </div>
+                                    <div class="settings-toggle" id="toggle-autosave"></div>
+                                </div>
+                                <div class="settings-item">
+                                    <div>
+                                        <div class="settings-item-title">Show Favorite Memories First</div>
+                                        <div class="settings-item-desc">Prioritize your favorite memories</div>
+                                    </div>
+                                    <div class="settings-toggle" id="toggle-favorite"></div>
+                                </div>
+                                <div class="settings-item">
+                                    <div>
+                                        <div class="settings-item-title">Media Upload Quality</div>
+                                        <div class="settings-item-desc">Choose default upload quality</div>
+                                    </div>
+                                    <select id="pref-upload-quality" class="settings-select">
+                                        <option value="standard">Standard</option>
+                                        <option value="high">High Quality</option>
+                                        <option value="original">Original</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Appearance -->
+                        <div class="card settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-icon">🎨</span>
+                                <div>
+                                    <div class="settings-card-title">Appearance</div>
+                                    <div class="settings-card-subtitle">Make the app feel like home.</div>
+                                </div>
+                            </div>
+                            <div class="settings-list">
+                                <div class="settings-item">
+                                    <div class="settings-item-title">Accent Color</div>
+                                    <div style="display:flex; gap:8px;">
+                                        <button class="settings-color-btn" data-color="forest" style="background:#1C5A48"></button>
+                                        <button class="settings-color-btn" data-color="pink" style="background:#E9A6A6"></button>
+                                        <button class="settings-color-btn" data-color="gold" style="background:#D8A94E"></button>
+                                        <button class="settings-color-btn" data-color="blue" style="background:#4A90E2"></button>
+                                        <button class="settings-color-btn" data-color="purple" style="background:#9768DB"></button>
+                                    </div>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-title">Font Size</div>
+                                    <div class="settings-btn-group">
+                                        <button class="settings-group-btn" data-size="small">Small</button>
+                                        <button class="settings-group-btn" data-size="medium">Medium</button>
+                                        <button class="settings-group-btn" data-size="large">Large</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="settings-column">
+                        <!-- Notifications -->
+                        <div class="card settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-icon">🔔</span>
+                                <div>
+                                    <div class="settings-card-title">Notifications</div>
+                                    <div class="settings-card-subtitle">Stay reminded about what matters to you.</div>
+                                </div>
+                            </div>
+                            <div class="settings-list">
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-text-secondary)">🎁</span>
+                                        <div>
+                                            <div class="settings-item-title">Special Day Reminders</div>
+                                            <div class="settings-item-desc">Get notified on birthdays and special days</div>
+                                        </div>
+                                    </div>
+                                    <div class="settings-toggle" id="toggle-notif-special"></div>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-text-secondary)">☀️</span>
+                                        <div>
+                                            <div class="settings-item-title">Daily Reflection Reminder</div>
+                                            <div class="settings-item-desc">A gentle reminder to reflect each day</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:12px;">
+                                        <select id="pref-notif-time" class="settings-select" style="padding:4px 8px; font-size:0.8rem;">
+                                            <option value="08:00">8:00 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="20:00">8:00 PM</option>
+                                        </select>
+                                        <div class="settings-toggle" id="toggle-notif-daily"></div>
+                                    </div>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-text-secondary)">📅</span>
+                                        <div>
+                                            <div class="settings-item-title">Monthly Recap Notification</div>
+                                            <div class="settings-item-desc">Get notified when your monthly recap is ready</div>
+                                        </div>
+                                    </div>
+                                    <div class="settings-toggle" id="toggle-notif-recap"></div>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-text-secondary)">🍃</span>
+                                        <div>
+                                            <div class="settings-item-title">Motivational Reminders</div>
+                                            <div class="settings-item-desc">Positive messages to keep you going</div>
+                                        </div>
+                                    </div>
+                                    <div class="settings-toggle" id="toggle-notif-motivational"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Privacy & Data -->
+                        <div class="card settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-icon" style="color:var(--color-green)">🛡️</span>
+                                <div>
+                                    <div class="settings-card-title">Privacy & Data</div>
+                                    <div class="settings-card-subtitle">Your data, your control.</div>
+                                </div>
+                            </div>
+                            <div class="settings-list">
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-text-secondary)">📥</span>
+                                        <div>
+                                            <div class="settings-item-title">Export Memories</div>
+                                            <div class="settings-item-desc">Download your memories as a backup</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-outline" id="btn-export" style="border-color:#ddd; padding:4px 12px; font-size:0.8rem;">Export</button>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-text-secondary)">☁️</span>
+                                        <div>
+                                            <div class="settings-item-title">Backup Data</div>
+                                            <div class="settings-item-desc">Create a local backup of your data</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-outline" id="btn-backup" style="border-color:#ddd; padding:4px 12px; font-size:0.8rem;">Backup</button>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-error, #d9534f)">🗑️</span>
+                                        <div>
+                                            <div class="settings-item-title" style="color:var(--color-error, #d9534f)">Clear Local Data</div>
+                                            <div class="settings-item-desc">Remove all local data from this device</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-danger" id="btn-clear" style="padding:4px 12px; font-size:0.8rem;">Clear Data</button>
+                                </div>
+                                <div class="settings-item">
+                                    <div class="settings-item-info">
+                                        <span style="font-size:1.2rem; color:var(--color-error, #d9534f)">👤</span>
+                                        <div>
+                                            <div class="settings-item-title" style="color:var(--color-error, #d9534f)">Delete Account</div>
+                                            <div class="settings-item-desc">Permanently delete your account and data</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-danger" id="btn-delete-account" style="padding:4px 12px; font-size:0.8rem;">Delete Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About MemoryVault -->
+                <div class="card settings-card settings-about">
+                    <div style="display:flex; gap:16px; align-items:center;">
+                        <span style="font-size:2rem; color:var(--color-forest)">ℹ️</span>
+                        <div>
+                            <div class="settings-card-title">About MemoryVault</div>
+                            <div class="settings-card-subtitle">App information and useful links.</div>
+                            <div style="display:flex; align-items:center; gap:12px; margin-top:12px;">
+                                <span style="font-size:2rem;">🍃</span>
+                                <div>
+                                    <div style="font-weight:600; color:var(--color-forest)">MemoryVault</div>
+                                    <div style="font-size:0.75rem; color:var(--color-text-secondary)">Version 1.0.0<br>Your memories grow with you.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-about-links">
+                        <button class="settings-about-btn">🛡️ Privacy Policy</button>
+                        <button class="settings-about-btn">📄 Terms of Service</button>
+                        <button class="settings-about-btn">❓ Help & Support</button>
+                    </div>
+                </div>
+            </main>
+            <main id="page-placeholder" class="page-content hidden">
+                <div class="placeholder-page">
+                    <div class="placeholder-icon">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V12"/><path d="M12 12C9 12 6 9 6 6c3 0 6 3 6 6z"/><path d="M12 12c3 0 6-3 6-6-3 0-6 3-6 6z"/><path d="M7 20h10"/></svg>
+                    </div>
+                    <h2 id="placeholder-title">Page</h2>
+                    <p>This page is being prepared. Check back soon!</p>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ═══ GLOBAL MEMORY MODAL ═══ -->
+<div id="global-modal-overlay" class="gallery-modal-overlay">
+    <div class="memory-modal" role="dialog" aria-modal="true">
+        <div class="modal-header">
+            <h2 id="modal-title">Memory Title</h2>
+            <button class="modal-close" id="modal-close-btn" aria-label="Close">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="modal-view-mode">
+                <div id="modal-media-container" class="modal-media">
+                    <!-- Media injected via JS -->
+                </div>
+                <div class="modal-info-row">
+                    <div id="modal-date" class="modal-info-item"></div>
+                    <div id="modal-location" class="modal-info-item"></div>
+                </div>
+                <div id="modal-reflection" class="modal-reflection">
+                    <!-- Reflection injected via JS -->
+                </div>
+                <div id="modal-soundtrack" style="display:none; margin-top:16px; background:var(--color-bg); padding:16px; border-radius:var(--radius-md); border: 1px solid var(--color-border);">
+                    <!-- Soundtrack injected via JS -->
+                </div>
+            </div>
+
+            <!-- Edit Mode Form (Hidden by default) -->
+            <form id="modal-edit-form" style="display:none; flex-direction:column; gap:16px; margin-top:16px;">
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px;">Title</label>
+                    <input type="text" id="edit-mem-title" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px;" required>
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px;">Change Media (Optional)</label>
+                    <input type="file" id="edit-mem-media" accept="image/*,video/*,audio/*" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px;">Story & Reflection</label>
+                    <textarea id="edit-mem-reflection" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px; resize:vertical; min-height:80px;"></textarea>
+                </div>
+                <div style="background:var(--color-card); padding:12px; border-radius:8px; border:1px solid var(--color-border);">
+                    <label style="display:flex; align-items:center; gap:6px; font-size:0.85rem; font-weight:600; color:var(--color-text); margin-bottom:8px;">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--color-green)"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                        Memory Soundtrack (Optional)
+                    </label>
+                    <div id="edit-soundtrack-preview" style="display:none; margin-bottom:8px; align-items:center; gap:8px;">
+                        <audio id="edit-soundtrack-player" controls style="flex:1; height:32px;"></audio>
+                        <button type="button" id="edit-soundtrack-remove" style="color:var(--color-error); background:none; border:none; cursor:pointer;" aria-label="Remove Soundtrack">✖</button>
+                    </div>
+                    <input type="file" id="edit-mem-soundtrack" accept=".mp3,.wav,.m4a,.aac,.ogg" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem;">
+                </div>
+                <div style="display:flex; gap:16px;">
+                    <div style="flex:1;">
+                        <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px;">Date</label>
+                        <input type="date" id="edit-mem-date" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px;" required>
+                    </div>
+                    <div style="flex:1;">
+                        <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px;">Location</label>
+                        <input type="text" id="edit-mem-location" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px;">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button id="modal-fav-btn" class="btn-fav">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Favorite
+            </button>
+            <div class="modal-actions" id="modal-view-actions">
+                <button class="btn-secondary" id="modal-edit-btn">Edit</button>
+                <button class="btn-danger" id="modal-del-btn">Delete</button>
+            </div>
+            <div class="modal-actions" id="modal-edit-actions" style="display:none;">
+                <button class="btn-secondary" id="modal-cancel-edit-btn" style="background:transparent; color:var(--color-text-secondary); border:none;">Cancel</button>
+                <button class="btn-submit" id="modal-save-edit-btn" style="padding:6px 16px;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SPECIAL DAY MODAL ═══ -->
+<div id="special-day-modal-overlay" class="gallery-modal-overlay">
+    <div class="memory-modal" style="max-width:500px">
+        <div class="modal-header">
+            <h2 id="sd-modal-title">Add Special Day</h2>
+            <button class="modal-close" id="sd-close-btn" type="button" aria-label="Close">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="sd-form" style="display:flex; flex-direction:column; gap:16px;">
+                <div class="detail-field">
+                    <label style="display:block; font-size:0.9rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px">Name</label>
+                    <input type="text" id="sd-name" class="sd-form-input" placeholder="E.g., Mom's Birthday" required>
+                </div>
+                <div class="detail-field">
+                    <label style="display:block; font-size:0.9rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px">Date</label>
+                    <input type="date" id="sd-date" class="sd-form-input" required>
+                </div>
+                <div class="detail-field">
+                    <label style="display:block; font-size:0.9rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px">Type</label>
+                    <select id="sd-type" class="sd-form-input">
+                        <option value="Birthday">Birthday</option>
+                        <option value="Special Day">Special Day</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Achievement">Achievement</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="detail-field">
+                    <label style="display:block; font-size:0.9rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px">Repeat</label>
+                    <select id="sd-repeat" class="sd-form-input">
+                        <option value="Every Year">Every Year</option>
+                        <option value="One Time">One Time</option>
+                    </select>
+                </div>
+                <div class="detail-field">
+                    <label style="display:block; font-size:0.9rem; font-weight:600; color:var(--color-text-secondary); margin-bottom:4px">Reminder</label>
+                    <select id="sd-reminder" class="sd-form-input">
+                        <option value="No Reminder">No Reminder</option>
+                        <option value="On the Day">On the Day</option>
+                        <option value="1 Day Before">1 Day Before</option>
+                        <option value="1 Week Before">1 Week Before</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:12px; margin-top:16px">
+                    <button type="button" class="btn-secondary" id="sd-cancel-btn" style="flex:1">Cancel</button>
+                    <button type="submit" class="btn-submit" style="flex:1">Save Special Day</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="session.js"></script>
+<script src="app.js"></script>
+<script src="home.js"></script>
+<script src="memoryState.js"></script>
+<script src="capture.js"></script>
+<script src="gallery.js"></script>
+<script src="calendar.js"></script>
+<!-- Music Picker Modal -->
+<div id="music-picker-modal" class="gallery-modal-overlay" style="opacity:0; pointer-events:none; z-index: 9999;">
+    <div class="modal-content" style="max-width: 500px; width: 90%; max-height: 85vh; display:flex; flex-direction:column; background:var(--color-bg); padding:0; overflow:hidden;">
+        <div style="padding: 24px 24px 16px 24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <h2 style="margin:0; display:flex; align-items:center; gap:8px;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--color-green)"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    Add Music
+                </h2>
+                <button class="btn-close" id="btn-close-music-picker" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--color-text-muted);">✖</button>
+            </div>
+            <p style="color:var(--color-text-secondary); margin:0 0 20px 0; font-size:0.95rem;">Choose a soundtrack for this memory</p>
+            
+            <input type="text" id="music-picker-search" placeholder="🔍 Search music..." style="width:100%; padding:10px 16px; border-radius:24px; border:1px solid var(--color-border); background:var(--color-card); margin-bottom:16px; font-size:0.95rem; box-sizing:border-box;">
+            
+            <div style="display:flex; gap:20px; border-bottom:1px solid var(--color-border); padding-bottom:12px; margin-bottom:8px;">
+                <span style="font-weight:600; color:var(--color-green); cursor:pointer; border-bottom: 2px solid var(--color-green); padding-bottom: 12px; margin-bottom: -13px;">My Music</span>
+                <span style="color:var(--color-text-muted); cursor:pointer;">Recent</span>
+                <span style="color:var(--color-text-muted); cursor:pointer;">Favorites</span>
+            </div>
+        </div>
+
+        <div id="music-picker-list" style="flex:1; overflow-y:auto; padding:8px 24px;">
+            <!-- Music items injected here -->
+        </div>
+
+        <div style="padding:20px 24px; border-top:1px solid var(--color-border); display:flex; flex-direction:column; gap:12px; background:var(--color-card);">
+            <button type="button" class="btn-primary" id="btn-picker-confirm" style="width:100%; justify-content:center; padding:12px; font-size:1rem; opacity:0.5; pointer-events:none;">Add to Memory</button>
+            <button type="button" class="btn-secondary" id="btn-picker-add-device" style="width:100%; justify-content:center; padding:12px; font-size:1rem;">📁 Add Music from Device</button>
+            <input type="file" id="music-picker-file-input" accept=".mp3,.wav,.m4a,.aac,.ogg" class="hidden">
+        </div>
+    </div>
+</div>
+
+<script src="streaks.js"></script>
+<script src="ai.js"></script>
+<script src="recap.js"></script>
+<script src="settings.js"></script>
+<script src="timeline.js"></script>
+</body>
+</html>
+
+<!-- Custom Delete Modal -->
+<div id="custom-delete-modal" class="gallery-modal-overlay">
+    <div class="modal-content" style="max-width: 400px; text-align: center; padding: 24px;">
+        <h3 style="margin-top:0; color:var(--color-text-primary);">Delete this memory?</h3>
+        <p style="color:var(--color-text-secondary); margin-bottom: 24px;">This memory and its attached media will be removed permanently.</p>
+        <div style="display:flex; justify-content:center; gap:16px;">
+            <button class="btn-secondary" id="btn-cancel-delete" style="background:transparent; border:1px solid #ddd; padding:8px 24px;">Cancel</button>
+            <button class="btn-danger" id="btn-confirm-delete" style="padding:8px 24px;">Delete</button>
+        </div>
+    </div>
+</div>
+

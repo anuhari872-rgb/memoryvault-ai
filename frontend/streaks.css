@@ -1,0 +1,380 @@
+/* 
+ * MemoryVault AI — Streaks Page Styles
+ */
+
+/* Layout & Grid */
+.str-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.str-grid-2 {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.str-grid-half {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+/* Typography & Headers */
+.str-card-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-forest);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+.str-card-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* Card Visuals */
+.str-value-lg {
+    font-size: 3rem;
+    font-family: var(--font-heading);
+    color: var(--color-forest);
+    line-height: 1;
+}
+.str-value-label {
+    font-size: 0.95rem;
+    color: var(--color-forest);
+    font-weight: 500;
+}
+
+/* Last 7 Days (Current Streak) */
+.str-last-7-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+.str-day-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.str-day-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.str-day-circle.active {
+    background: var(--color-sage);
+}
+.str-day-name {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+/* Month Radial */
+.str-month-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.str-radial-wrap {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-sage-light);
+}
+.str-radial-inner {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--color-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-forest);
+}
+
+/* Activity Calendar */
+.str-cal-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.str-cal-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--color-forest);
+}
+.str-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+.str-cal-header {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    padding-bottom: 8px;
+}
+.str-cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.2s;
+    gap: 4px;
+}
+.str-cal-day:hover {
+    background: var(--color-bg);
+}
+.str-cal-day.selected {
+    background: var(--color-sage-light);
+}
+.str-cal-num {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+.str-cal-day.today .str-cal-num {
+    background: var(--color-forest);
+    color: white;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.str-cal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+.str-cal-dot.bg-green { background: var(--color-green); }
+.str-cal-dot.bg-empty { background: var(--color-bg); }
+
+/* Selected Date Memories */
+.str-mem-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+.str-mem-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(18,59,50,0.05);
+}
+.str-mem-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+.str-mem-info { flex: 1; min-width: 0; }
+.str-mem-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+.str-mem-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+/* Milestones */
+.str-ms-track {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px 0 20px;
+    position: relative;
+}
+.str-ms-track::before {
+    content: '';
+    position: absolute;
+    bottom: 50px;
+    left: 4%;
+    right: 4%;
+    height: 2px;
+    background: var(--color-sage-light);
+    z-index: 1;
+}
+.ms-node {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 60px;
+    text-align: center;
+}
+.ms-icon-wrap {
+    color: var(--color-forest);
+    margin-bottom: 12px;
+}
+.ms-node.locked .ms-icon-wrap {
+    opacity: 1;
+    filter: none;
+}
+.ms-node.locked .ms-icon-wrap svg {
+    opacity: 0.85;
+}
+.ms-label {
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text-primary);
+}
+.ms-node.locked .ms-label { 
+    color: var(--color-text-secondary); 
+}
+.ms-node.current {
+    background: var(--color-bg);
+    padding: 12px 4px 8px;
+    border-radius: var(--radius-md);
+    margin-top: -12px;
+    border: 1px solid var(--color-sage-light);
+    box-shadow: 0 4px 12px rgba(18,59,50,0.06);
+}
+.ms-node.current .ms-icon-wrap {
+    transform: scale(1.15);
+    transition: transform 0.3s ease;
+}
+.ms-node.current .ms-label {
+    color: var(--color-forest);
+    font-weight: 600;
+}
+.ms-bar {
+    position: absolute;
+    bottom: 30px;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: var(--color-green);
+    z-index: 2;
+    display: none; /* Only show active bar from JS logic if needed, actually doing it with full track is easier */
+}
+.ms-check {
+    width: 16px;
+    height: 16px;
+    background: var(--color-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Statistics Grid */
+.str-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.str-stat-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+}
+.str-stat-icon {
+    font-size: 1.5rem;
+}
+.str-stat-val {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-forest);
+}
+.str-stat-lbl {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+/* History List */
+.str-hist-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-bg);
+}
+.str-hist-item:last-child { border-bottom: none; }
+.str-hist-dates {
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    width: 150px;
+}
+.str-hist-bar-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.str-hist-val {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    width: 60px;
+}
+.str-hist-bar {
+    height: 8px;
+    border-radius: 4px;
+}
+
+/* Insights */
+.str-insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+}
+.insight-icon {
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+    .str-grid-3, .str-grid-2, .str-grid-half {
+        grid-template-columns: 1fr;
+    }
+}
